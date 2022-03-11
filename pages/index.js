@@ -1,6 +1,8 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
+import {app , database} from '../firebaseConfig'
+import { collection, addDoc } from 'firebase/firestore';
 
 export default function Home() {
   return (
