@@ -1,16 +1,34 @@
 import { useEffect, useState } from "react"
+import Box from '@mui/material/Box';
+import Modal from '@mui/material/Modal';
+import CircularProgress from '@mui/material/CircularProgress';
 
 const Loading = ({setIsLoading}) =>{
-    const load = () =>{
-        setIsLoading(false)
-    }
+    const [open, setOpen] = useState(true);
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
 
-    useEffect(() =>{
-      setTimeout(load, 3000)  
-    }, [])
     return(
         <>
-            <div>Loading....</div>
+            <div>
+                <Modal
+                    open={open}
+                    onClose={handleClose}
+                    aria-labelledby="modal-modal-title"
+                    aria-describedby="modal-modal-description"
+                    className="bg-amber-400"
+                >
+                    <Box sx={{
+                        position: 'absolute',
+                        top: '50%',
+                        left: '50%',
+                        transform: 'translate(-50%, -50%)',
+                        p: 4,
+                    }} className="bg-white">
+                        <CircularProgress />
+                    </Box>
+                </Modal>
+            </div>
         </>
     )
 }

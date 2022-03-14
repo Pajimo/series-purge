@@ -10,7 +10,9 @@ import {firebaseConfig, database} from '../../firebaseConfig'
 import TextField from '@mui/material/TextField';
 import { useRouter } from 'next/router'
 import { ToastContainer, toast } from 'react-toastify';
+import UserPage from './userpage'
 import 'react-toastify/dist/ReactToastify.css';
+import Loading from "./loadingScreen";
   
 const LoginSignup = () =>{
 
@@ -19,15 +21,18 @@ const LoginSignup = () =>{
     const [password, setPassword] = useState('')
     const [errorMessage, setErrorMessage] = useState('')
     const [user, setUser] = useState([])
+    const [isLoading, setIsLoading] = useState(false)
 
     const router = useRouter()
 
 
     const signUp = () =>{
+        setIsLoading(true)
     createUserWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
       // Signed in 
       setUser(userCredential.user);
+      router.push('./userpage') 
       // ...
     })
     .catch((error) => {
@@ -43,14 +48,16 @@ const LoginSignup = () =>{
     });
 }
   
-    const signIn = () =>{
-    signInWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-      // Signed in 
-      setUser(userCredential.user);
-      if(user){
-        router.push('./userpage')
-      }
+    const signIn = async () =>{
+         signInWithEmailAndPassword(auth, email, password)
+        
+         
+        .then((userCredential) => {
+            // Signed in 
+            setIsLoading(true)
+            setUser(userCredential.user);
+            toast('Signed In Successsfully')
+            router.push('./userpage')     
       // ...
     })
     .catch((error) => {
@@ -67,6 +74,7 @@ const LoginSignup = () =>{
 
     const googleProvider = new GoogleAuthProvider();
     const signInWithGoogle = async () => {
+        setIsLoading(true)
         try {
             const res = await signInWithPopup(auth, googleProvider);
             const user = res.user;
@@ -86,6 +94,11 @@ const LoginSignup = () =>{
         }
     };
 
+    if(isLoading){
+        return(
+            <Loading setIsLoading={setIsLoading}/>
+          )
+    }
 
 
     return(
@@ -93,7 +106,7 @@ const LoginSignup = () =>{
         <ToastContainer />
             <div>
                 <h1>Login / Signup</h1>
-                <h2>{user.email}</h2>
+                <h2>welcome {user.email}</h2>
                 <form>
                     <TextField label="Email Address" variant="standard" 
                           sx={{
@@ -121,6 +134,7 @@ const LoginSignup = () =>{
                 <div>
                 </div>
             </div>
+            
         </>
     )
 }
