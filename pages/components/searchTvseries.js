@@ -3,11 +3,13 @@ import { useEffect, useState } from 'react';
 import ImageListItem from '@mui/material/ImageListItem';
 import ImageListItemBar from '@mui/material/ImageListItemBar';
 import { ToastContainer, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 import {firebaseConfig, database} from '../../firebaseConfig'
 import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 import { useRouter } from "next/router";
 import { Button } from "@mui/material";
 import Loading from './loadingScreen';
+import SelectedTvseries from './selectedTvseries';
 
 
 const SearchMovie = () =>{
@@ -16,6 +18,8 @@ const SearchMovie = () =>{
     const [currentUser, setCurrentUser] = useState('')
     const [searchValue, setSearchValue]= useState('')
     const [isLoading, setIsLoading] = useState(false)
+    const [selectedSeriesID, setSelectedSeriesID] = useState([])
+    const [showSelected, setShowSelected] = useState(false)
     const auth = getAuth();
     const router = useRouter()
     const { query: { userPageValue }} = router
@@ -66,15 +70,19 @@ const SearchMovie = () =>{
         const data = await response.json()
         setIsLoading(false)
         setSearchData(data.results)
-        console.log(data)
-        console.log(data.result)
     }
 
     const handleSubmit = (e) =>{
         e.preventDefault()
-        setIsLoading(true)
-        fetchMovie(searchUrl+`&query=`+searchValue)
-        setIsLoading(false)
+        if(searchValue){
+            setIsLoading(true)
+            fetchMovie(searchUrl+`&query=`+searchValue)
+            setIsLoading(false)
+            toast("Search Successful")
+        }
+        else{
+            toast.error('Enter name of a Tvseries')
+        }
     }
 
     useEffect(async () =>{
@@ -83,6 +91,18 @@ const SearchMovie = () =>{
         setIsLoading(false)
     }, [userPageValue])
 
+
+    const showParticularSeries = (id) =>{
+        const finalValue = searchdata.filter((curId) => curId.id === id)
+        setSelectedSeriesID(finalValue[0].id)
+        setShowSelected(true)
+    }
+
+
+    const closeParticularSeries =() =>{
+        setShowSelected(false)
+    }
+ 
     if(isLoading){
         return(
         <Loading setIsLoading={setIsLoading}/>
@@ -91,8 +111,9 @@ const SearchMovie = () =>{
 
     return (
         <>
+        <ToastContainer/>
             <div>
-                <ToastContainer/>
+                
                 <h1>welcome: {currentUser ? currentUser.email : ""}</h1>
                 <form>
                     <input type='text' placeholder='Search' value={searchValue} onChange={(e) =>{
@@ -104,13 +125,13 @@ const SearchMovie = () =>{
                 </form>
                 <Button variant="contained" onClick={() =>{
                     signedOut()}}>{currentUser ? "Sign Out" : "Sign In"}</Button>
-                <div className='flex flex-col justify-center md:grid md:grid-cols-3'>{searchdata.map((data) =>{
+                <div className='flex flex-row flex-wrap mx-2 md:mx-5 mt-10'>
+                    {searchdata.map((data) =>{
                     const {id, name, poster_path, overview} = data;
                     return(
-                        <div key={id}>
-                            <p>{name}</p>
-                            <ImageList sx={{ width: 500, height: 450 }}>
-                                <ImageListItem className='w-52'>
+                        <div key={id} className="basis-1/2 md:basis-2/6 md:mb-10 mb-5" onClick={() =>showParticularSeries(id)}>
+                            <ImageList sx={{  height: 450 }} className="flex justify-center">
+                                <ImageListItem className='w-48 md:w-64' style={{cursor: 'pointer'}}>
                                     <img
                                         src={poster_path ? Img_Url+poster_path : "https://images.assetsdelivery.com/compings_v2/yehorlisnyi/yehorlisnyi2104/yehorlisnyi210400016.jpg"}
                                         alt={name}
@@ -125,7 +146,10 @@ const SearchMovie = () =>{
                             </ImageList>  
                         </div>
                     )
-                })}</div>
+                    
+                })}
+                </div>
+                <SelectedTvseries closeParticularSeries={closeParticularSeries} showSelected={showSelected} selectedSeriesID={selectedSeriesID} setShowSelected={setShowSelected}/>
             </div>
         </>
     )

@@ -16,7 +16,7 @@ const Loading = ({setIsLoading}) =>{
                     onClose={handleClose}
                     aria-labelledby="modal-modal-title"
                     aria-describedby="modal-modal-description"
-                    className="bg-amber-400"
+                    className="bg-transparent"
                 >
                     <Box sx={{
                         position: 'absolute',

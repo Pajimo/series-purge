@@ -19,3 +19,36 @@ a {
 * {
   box-sizing: border-box;
 }
+
+.modal{
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: scroll;
+  padding-top: 20px;
+}
+
+.modal-content{
+  width: 550px;
+  background-color: antiquewhite;
+}
+
+.modal-header, .modal-footer{
+  
+
+}
+
+.modal-title{
+  margin: 0;
+}
+.modal-body{
+  padding: 10px;
+  border-top: 1px solid #eee;
+  border-bottom: 1px solid #eee;
+}
