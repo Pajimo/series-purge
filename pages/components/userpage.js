@@ -5,6 +5,7 @@ import { ToastContainer, toast } from "react-toastify";
 import { Button } from "@mui/material";
 import { useRouter } from "next/router";
 import Loading from "./loadingScreen";
+import Header from "./header";
 
 
 
@@ -23,6 +24,7 @@ const UserPage = () =>{
     const router = useRouter()
 
     const Img_Url = "https://image.tmdb.org/t/p/original"
+    const baseUrl = "https://api.themoviedb.org/3/tv/popular?api_key=4e73e1dfa07d9055c678d3e4ad6ac341"
     const billionsImageUrl =  Img_Url+posterPath
     const baseUrlBillions = 'https://api.themoviedb.org/3/tv/62852/season/6/episode/8/images?api_key=4e73e1dfa07d9055c678d3e4ad6ac341'
 
@@ -69,18 +71,16 @@ const UserPage = () =>{
     //     setBackScreen(data.result)
 
     // }
-    const getBillionsTvseriesPoster = async(url) =>{
-        const response = await fetch(url, options)
-        const data = await response.json()
-        setBillionsTvseriesPoster(data.results)
-        setPosterPath(data.stills[0].file_path)
-    }
 
-    
-    useEffect( async()=>{
-        //getBackScreen(url)
-        await getBillionsTvseriesPoster(baseUrlBillions)
+
+    useEffect(async() =>{
+        const response = await fetch(baseUrl, options)
+        const data = await response.json()
+        console.log(data)
+        setUserPageData(data)
+
     }, [])
+
     
     // Get current logged in user
    const currentUser = auth.currentUser
@@ -91,36 +91,10 @@ const UserPage = () =>{
         )
     }
 
-    const handleSubmit = async (e) =>{
-        e.preventDefault()
-        if(userPageValue){
-            //await fetchMovie(searchUrl+`&query=`+userPageValue)
-            router.push({
-                pathname: './searchTvseries',
-                query: {userPageValue: userPageValue, }
-            })
-        }
-    }
     return (
         <>
             <div>
-                <div className='h-screen'>
-                <div style={{ backgroundImage: `url(${billionsImageUrl})`}} className='h-1/2 bg-contain bg-no-repeat md:h-2/3 bg-center md:bg-cover '>
-                    <ToastContainer/>
-                    <h1>welcome: {currentUser ? currentUser.email : ""}</h1>
-                    <form>
-                        <input type='text' placeholder='Search' value={userPageValue} onChange={(e) =>{
-                            setUserPageValue(e.target.value)
-                        }}/>
-                        <Button onClick={(e) =>
-                            handleSubmit(e)
-                        }>Search</Button>
-                    </form>
-                    <div>
-                        <button className='p-2 ba'>Sign Out</button>
-                    </div>
-                </div>
-                </div>
+                <Header />
                 <div>
                     <div>
 

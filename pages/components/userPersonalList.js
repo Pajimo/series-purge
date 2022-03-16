@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import {firebaseConfig, database} from '../../firebaseConfig'
 import { collection, addDoc, getDocs } from 'firebase/firestore';
 import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
+import Header from './header';
 
 
 const UserList = () =>{
@@ -39,21 +40,26 @@ const UserList = () =>{
     return(
         <>
             <div>
-                {currentUser}
+                <Header />
+                <div className='m-2'>
                 {myListTvseries.map((series) =>{
                     const {id, name, poster_path, next_episode_to_air} = series
                     return(
-                        <div key={id}>
-                            <div>
-                                <img src={Img_Url+poster_path} alt={name}/>
-                            </div>
-                            <div>
-                                <h1>{name}</h1>
-                                {next_episode_to_air ? `Next Episode: ${next_episode_to_air.air_date}` : " "}
+                        <div key={id} className=''>
+                            <div className='flex flex-row'>
+                                <div className='w-20 mr-2'>
+                                    <img src={Img_Url+poster_path} alt={name}/>
+                                </div>
+                                <div>
+                                    <h1 className='font-bold'>{name}</h1>
+                                    {next_episode_to_air ? `Next Episode: ${next_episode_to_air.air_date}` : " "}
+                                </div>
                             </div>
                         </div>
                     )
                 })}
+                </div>
+                
             </div>
         </>
     )

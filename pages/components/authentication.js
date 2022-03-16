@@ -13,6 +13,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import UserPage from './userpage'
 import 'react-toastify/dist/ReactToastify.css';
 import Loading from "./loadingScreen";
+import Header from './header'
   
 const LoginSignup = () =>{
 
@@ -50,8 +51,6 @@ const LoginSignup = () =>{
   
     const signIn = async () =>{
          signInWithEmailAndPassword(auth, email, password)
-        
-         
         .then((userCredential) => {
             // Signed in 
             setIsLoading(true)
@@ -104,6 +103,7 @@ const LoginSignup = () =>{
     return(
         <>
         <ToastContainer />
+        <Header />
             <div>
                 <h1>Login / Signup</h1>
                 <h2>welcome {user.email}</h2>

@@ -4,6 +4,7 @@ import { collection, addDoc, doc, setDoc } from 'firebase/firestore';
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import { useState } from 'react';
+import Button from '@mui/material/Button';
 
 
 
@@ -58,10 +59,10 @@ const AddToList = ({id, next_episode_to_air, name, poster_path}) =>{
 
     return(
         <>
-            <div>
-                <button onClick={() => {
-                    addTOPersonalList()
-                }}>Add To List</button>
+            <div className='mt-3'>
+                <Button variant="contained" onClick={addTOPersonalList}>
+                    Add to list
+                </Button>
             </div>
         </>
     )

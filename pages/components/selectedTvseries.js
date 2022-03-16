@@ -39,18 +39,18 @@ const SelectedTvseries = ({closeParticularSeries, showSelected, selectedSeriesID
         return null
     }
     const Img_Url = "https://image.tmdb.org/t/p/w300"
-    const {id, name, overview, poster_path, number_of_seasons, next_episode_to_air} = selectedTvseriesInfo
+    const {id, name, overview, poster_path, genres, number_of_seasons, next_episode_to_air} = selectedTvseriesInfo
     return(
         <>
         
-            <div className='modal'>
+            <div className='modal rounded-xl'>
                 <div className='modal-content'>
-                    <div className='modal-header flex flex-row justify-between mt-20 mx-5'>
+                    <div className='modal-header flex flex-row justify-between mt-10 mx-5'>
                         <h4 className='modal-title'>Title: {name}</h4>
                         <button onClick={closeParticularSeries} className='button font-bold'>X</button>
                     </div>
                     <div className='modal-body'>
-                        <div className="flex justify-center ">
+                        <div className="flex justify-center w-40">
                             <img src={Img_Url+poster_path} alt={name}/>
                         </div>
                         <div>
@@ -65,6 +65,17 @@ const SelectedTvseries = ({closeParticularSeries, showSelected, selectedSeriesID
                             <div>
                                 <AddToList id={id} name={name} poster_path={poster_path} next_episode_to_air={next_episode_to_air}/>
                             </div>
+                            <div className="mt-5">
+                                <h1>Genres</h1>
+                                {genres.map((genre) =>{
+                                    const {id, name} = genre;
+                                    return(
+                                        <div key={id}>
+                                            <h1>- {name}</h1>
+                                        </div>
+                                    )
+                                })}
+                            </div>
                             <div>
                                 <p className="text-center">Overview</p>
                                 {overview}
@@ -73,8 +84,8 @@ const SelectedTvseries = ({closeParticularSeries, showSelected, selectedSeriesID
                         </div>
                         
                     </div>
-                    <div className='modal-footer'>
-                        <button onClick={closeParticularSeries} className='button'>Close</button>
+                    <div className='modal-footer mb-10'>
+                        <button onClick={closeParticularSeries} className='button'></button>
                     </div>
                 </div>
             </div>

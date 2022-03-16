@@ -11,6 +11,7 @@ import { useRouter } from "next/router";
 import { Button } from "@mui/material";
 import Loading from './loadingScreen';
 import SelectedTvseries from './selectedTvseries';
+import Header from './header';
 
 
 const SearchMovie = () =>{
@@ -112,18 +113,7 @@ const SearchMovie = () =>{
         <ToastContainer/>
             <div>
                 
-                <h1>welcome: {currentUser ? currentUser.email : ""}</h1>
-                <form onSubmit={(e) => handleSubmit(e)}>
-                    <input type='text' placeholder='Search' value={searchValue} onChange={(e) =>{
-                        setSearchValue(e.target.value)
-                    }}/>
-                    <Button onClick={(e) =>
-                        handleSubmit(e)
-                    }>Search</Button>
-                    <button onClick={()=> router.push('./userPersonalList')}>My List</button>
-                </form>
-                <Button variant="contained" onClick={() =>{
-                    signedOut()}}>{currentUser ? "Sign Out" : "Sign In"}</Button>
+               <Header />
                 <div className='flex flex-row flex-wrap mx-2 md:mx-5 mt-10'>
                     {searchdata.map((data) =>{
                     const {id, name, poster_path, overview} = data;
