@@ -6,6 +6,7 @@ import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import {firebaseConfig, database} from '../../firebaseConfig'
 import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
+import { collection, addDoc, doc, setDoc } from 'firebase/firestore';
 import { useRouter } from "next/router";
 import { Button } from "@mui/material";
 import Loading from './loadingScreen';
@@ -21,6 +22,7 @@ const SearchMovie = () =>{
     const [selectedSeriesID, setSelectedSeriesID] = useState([])
     const [showSelected, setShowSelected] = useState(false)
     const auth = getAuth();
+    
     const router = useRouter()
     const { query: { userPageValue }} = router
 
@@ -33,27 +35,23 @@ const SearchMovie = () =>{
     const searchUrl = baseUrl+'/search/tv?'+apiKey
 
 
-    onAuthStateChanged(auth, (user) => {
-        if (user) {
-          // User is signed in, see docs for a list of available properties
-          // https://firebase.google.com/docs/reference/js/firebase.User
-          setCurrentUser(auth.currentUser)
-          const uid = user.uid;
-          // ...
-        } else {
-          // User is signed out
-          // ...
-        }
-    });
+    useEffect(() =>{
+        setCurrentUser(auth.currentUser)
+    }, [])
+
 
     const signedOut = () =>{
-        signOut(auth).then(() => {
-            toast("Sign-out successful")
-            setSignedInUser("")
-        }).catch((error) => {
-            // An error happened.
-            console.log(error)
-        });
+        if(currentUser){
+            signOut(auth).then(() => {
+                toast("Sign-out successful")
+                setCurrentUser('')
+            }).catch((error) => {
+                // An error happened.
+                console.log(error)
+            });
+        }else{
+            router.push('./authentication')
+        }
     }
 
     var options = {
@@ -115,13 +113,14 @@ const SearchMovie = () =>{
             <div>
                 
                 <h1>welcome: {currentUser ? currentUser.email : ""}</h1>
-                <form>
+                <form onSubmit={(e) => handleSubmit(e)}>
                     <input type='text' placeholder='Search' value={searchValue} onChange={(e) =>{
                         setSearchValue(e.target.value)
                     }}/>
                     <Button onClick={(e) =>
                         handleSubmit(e)
                     }>Search</Button>
+                    <button onClick={()=> router.push('./userPersonalList')}>My List</button>
                 </form>
                 <Button variant="contained" onClick={() =>{
                     signedOut()}}>{currentUser ? "Sign Out" : "Sign In"}</Button>

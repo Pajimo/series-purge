@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react"
+import AddToList from "./addToList"
 
 
 const SelectedTvseries = ({closeParticularSeries, showSelected, selectedSeriesID, setShowSelected}) =>{
@@ -38,7 +39,7 @@ const SelectedTvseries = ({closeParticularSeries, showSelected, selectedSeriesID
         return null
     }
     const Img_Url = "https://image.tmdb.org/t/p/w300"
-    const {name, overview, poster_path, number_of_seasons, next_episode_to_air} = selectedTvseriesInfo
+    const {id, name, overview, poster_path, number_of_seasons, next_episode_to_air} = selectedTvseriesInfo
     return(
         <>
         
@@ -60,6 +61,9 @@ const SelectedTvseries = ({closeParticularSeries, showSelected, selectedSeriesID
                                     <p>Episode: {nextEpisode.episode_number}</p>
                                     <p>Season: {nextEpisode.season_number}</p></div>: "" }   
                                 </div>
+                            </div>
+                            <div>
+                                <AddToList id={id} name={name} poster_path={poster_path} next_episode_to_air={next_episode_to_air}/>
                             </div>
                             <div>
                                 <p className="text-center">Overview</p>
