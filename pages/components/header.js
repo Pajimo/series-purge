@@ -71,7 +71,7 @@ const Header = () =>{
                             vertical: 'bottom',
                             horizontal: 'left',
                             }}
-                        ><Typography sx={{ p: 2 }}><p className="p-2">{currentUser ? `Welcome: ${currentUser.email}` : " "}</p>
+                        ><Typography sx={{ p: 2 }}>{currentUser ? `Welcome: ${currentUser.email}` : " "}
                             <Button aria-describedby={id} variant="contained" onClick={()=> authSubmit()}>
                                 {currentUser ? 'Sign Out' : "Sign In"}
                             </Button>
