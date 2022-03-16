@@ -3,12 +3,14 @@ import {firebaseConfig, database} from '../../firebaseConfig'
 import { collection, addDoc, getDocs } from 'firebase/firestore';
 import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 import Header from './header';
+import styles from '../../styles/Home.module.css'
 
 
 const UserList = () =>{
 
     const[myListTvseries, setMyListTvseries] = useState([])
     const [currentUser, setCurrentUser] = useState('')
+    const [myListId, setMyListId] = useState([])
     const Img_Url = "https://image.tmdb.org/t/p/w200"
     const auth = getAuth()
     useEffect(() => {
@@ -25,6 +27,9 @@ const UserList = () =>{
                 setMyListTvseries(querySnapshot.docs.map((doc) =>{
                         return { ...doc.data()}
                 }))
+                setMyListId(querySnapshot.docs.map((id) =>{
+                    return id.id
+                }))
     
                 //});
               // ...
@@ -35,6 +40,18 @@ const UserList = () =>{
         });
     }, [])
 
+    if(!auth.currentUser){
+        return(
+            <>
+                <Header />
+                <div className={styles.container}>
+                    <h1 className={styles.main}>Log In to view your list</h1>
+                </div>
+            </>
+        )
+    }
+
+    console.log(myListId)
 
 
     return(
@@ -46,7 +63,7 @@ const UserList = () =>{
                     const {id, name, poster_path, next_episode_to_air} = series
                     return(
                         <div key={id} className=''>
-                            <div className='flex flex-row'>
+                            <div className='flex flex-row items-center'>
                                 <div className='w-20 mr-2'>
                                     <img src={Img_Url+poster_path} alt={name}/>
                                 </div>

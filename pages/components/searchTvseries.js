@@ -138,7 +138,7 @@ const SearchMovie = () =>{
                     
                 })}
                 </div>
-                <SelectedTvseries closeParticularSeries={closeParticularSeries} showSelected={showSelected} selectedSeriesID={selectedSeriesID} setShowSelected={setShowSelected}/>
+                <SelectedTvseries closeParticularSeries={closeParticularSeries} showSelected={showSelected} selectedSeriesID={selectedSeriesID} />
             </div>
         </>
     )

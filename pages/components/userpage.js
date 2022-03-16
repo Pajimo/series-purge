@@ -5,35 +5,27 @@ import { ToastContainer, toast } from "react-toastify";
 import { Button } from "@mui/material";
 import { useRouter } from "next/router";
 import Loading from "./loadingScreen";
+import SelectedTvseries from './selectedTvseries';
 import Header from "./header";
 
 
 
 
 const UserPage = () =>{
-    const [signedInUser, setSignedInUser] = useState('')
-    const [userPageValue, setUserPageValue] = useState('')
     const [userPagedata, setUserPageData] = useState([])
-    const [userPagedata2, setUserPagedata2] = useState([])
     const [isLoading, setIsLoading] = useState(false)
-    const [billionsTvseriesPoster, setBillionsTvseriesPoster] = useState([])
-    const [backScreen, setBackScreen] = useState([])
-    const [posterPath, setPosterPath] = useState("")
 
     const auth = getAuth();
     const router = useRouter()
 
     const Img_Url = "https://image.tmdb.org/t/p/original"
     const baseUrl = "https://api.themoviedb.org/3/tv/popular?api_key=4e73e1dfa07d9055c678d3e4ad6ac341"
-    const billionsImageUrl =  Img_Url+posterPath
-    const baseUrlBillions = 'https://api.themoviedb.org/3/tv/62852/season/6/episode/8/images?api_key=4e73e1dfa07d9055c678d3e4ad6ac341'
 
 
     onAuthStateChanged(auth, (user) => {
         if (user) {
           // User is signed in, see docs for a list of available properties
           // https://firebase.google.com/docs/reference/js/firebase.User
-          setSignedInUser(user.email)
           const uid = user.uid;
           // ...
         } else {
@@ -45,17 +37,6 @@ const UserPage = () =>{
       const redirect = () =>{
           router.push('./authentication')
       }
-
-    const signedOut = () =>{
-        signOut(auth).then(() => {
-            toast("Sign-out successful")
-            
-            setSignedInUser("")
-        }).catch((error) => {
-            // An error happened.
-            console.log(error)
-        });
-    }
 
     var options = {
         method: 'GET',
@@ -76,14 +57,22 @@ const UserPage = () =>{
     useEffect(async() =>{
         const response = await fetch(baseUrl, options)
         const data = await response.json()
-        console.log(data)
-        setUserPageData(data)
+        setUserPageData(data.results)
 
     }, [])
 
-    
-    // Get current logged in user
-   const currentUser = auth.currentUser
+
+// for selected shows
+const [showSelected, setShowSelected] = useState(false)
+const [selectedSeriesID, setSelectedSeriesID] = useState([])
+   const closeParticularSeries =() =>{
+    setShowSelected(false)
+}
+const showParticularSeries = (id) =>{
+    const finalValue = userPagedata.filter((curId) => curId.id === id)
+    setSelectedSeriesID(finalValue[0].id)
+    setShowSelected(true)
+}
    
     if(isLoading){
         return(
@@ -96,13 +85,28 @@ const UserPage = () =>{
             <div>
                 <Header />
                 <div>
-                    <div>
-
+                <h1 className="m-3 font-bold">Popular Tv Shows</h1>
+                    <div className=""> 
+                        {(userPagedata.map((show) =>{
+                            const {id, name, poster_path, overview} = show
+                            return(
+                                <div key={id} onClick={()=>showParticularSeries(id)} className="m-3 items-center">
+                                    <div>
+                                        <img className="w-20" src={Img_Url+poster_path} alt={name}/>
+                                    </div>
+                                    <div className="ml-3">
+                                        {name}
+                                        <p className="truncate ">{overview}</p>
+                                    </div>
+                                </div>
+                            )
+                        }))}
                     </div>
                     <div>
 
                     </div>
                 </div>
+                <SelectedTvseries closeParticularSeries={closeParticularSeries} showSelected={showSelected} selectedSeriesID={selectedSeriesID} />
             </div>
         </>
     )

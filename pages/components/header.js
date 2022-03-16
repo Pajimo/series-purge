@@ -71,10 +71,10 @@ const Header = () =>{
                             vertical: 'bottom',
                             horizontal: 'left',
                             }}
-                        ><Typography sx={{ p: 2 }}><h1 className="p-2">{currentUser ? `Welcome: ${currentUser.email}` : " "}</h1>
-                        <Button aria-describedby={id} variant="contained" onClick={()=> authSubmit()}>
-                            {currentUser ? 'Sign Out' : "Sign In"}
-                        </Button>
+                        ><Typography sx={{ p: 2 }}><p className="p-2">{currentUser ? `Welcome: ${currentUser.email}` : " "}</p>
+                            <Button aria-describedby={id} variant="contained" onClick={()=> authSubmit()}>
+                                {currentUser ? 'Sign Out' : "Sign In"}
+                            </Button>
                         </Typography>
                         </Popover>
                         </div>

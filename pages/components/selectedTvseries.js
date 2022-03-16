@@ -2,10 +2,11 @@ import { useState, useEffect } from "react"
 import AddToList from "./addToList"
 
 
-const SelectedTvseries = ({closeParticularSeries, showSelected, selectedSeriesID, setShowSelected}) =>{
+const SelectedTvseries = ({closeParticularSeries, showSelected, selectedSeriesID}) =>{
 
     const [selectedTvseriesInfo, setSelectedTvseriesInfo] = useState([])
     const [nextEpisode, setNextEpisode] = useState([])
+    const [genres, setGenres] = useState([])
 
     const apiKey = "?api_key=4e73e1dfa07d9055c678d3e4ad6ac341"
     const url = "https://api.themoviedb.org/3/tv/"
@@ -24,6 +25,8 @@ const SelectedTvseries = ({closeParticularSeries, showSelected, selectedSeriesID
     const data = await response.json()
     console.log(data)
     setSelectedTvseriesInfo(data)
+    setGenres(data.genres)
+    console.log(data.genres)
     setNextEpisode(data.next_episode_to_air)
 
     }
@@ -39,7 +42,7 @@ const SelectedTvseries = ({closeParticularSeries, showSelected, selectedSeriesID
         return null
     }
     const Img_Url = "https://image.tmdb.org/t/p/w300"
-    const {id, name, overview, poster_path, genres, number_of_seasons, next_episode_to_air} = selectedTvseriesInfo
+    const {id, name, overview, poster_path, number_of_seasons, next_episode_to_air} = selectedTvseriesInfo
     return(
         <>
         
@@ -47,7 +50,7 @@ const SelectedTvseries = ({closeParticularSeries, showSelected, selectedSeriesID
                 <div className='modal-content'>
                     <div className='modal-header flex flex-row justify-between mt-10 mx-5'>
                         <h4 className='modal-title'>Title: {name}</h4>
-                        <button onClick={closeParticularSeries} className='button font-bold'>X</button>
+                        <button onClick={closeParticularSeries} className='button font-extrabold'>X</button>
                     </div>
                     <div className='modal-body'>
                         <div className="flex justify-center w-40">
