@@ -1,8 +1,8 @@
 import { getAuth, signOut } from "firebase/auth";
-import {  useState } from "react"
-import {firebaseConfig, database} from '../../firebaseConfig'
+import {  useState } from "react";
+import {firebaseConfig, database} from '../../firebaseConfig';
 import { Button } from "@mui/material";
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/router';
 import { BsPersonFill } from "react-icons/bs";
 import { AiOutlineZoomIn } from "react-icons/ai";
 import Link from 'next/link';

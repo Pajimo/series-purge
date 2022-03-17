@@ -6,6 +6,8 @@ import Header from './header';
 import styles from '../../styles/Home.module.css'
 import SelectedTvseries from './selectedTvseries';
 import Loading from './loadingScreen';
+import { Button } from '@mui/material';
+import { useRouter } from 'next/router';
 
 
 const UserList = () =>{
@@ -18,6 +20,7 @@ const UserList = () =>{
 
     const Img_Url = "https://image.tmdb.org/t/p/w200"
     const auth = getAuth()
+    const router = useRouter()
 
     useEffect(() => {
         onAuthStateChanged (auth, async(user) => {
@@ -53,7 +56,8 @@ const UserList = () =>{
                 <Header />
                 <div className='font-bold'>
                     <div className={styles.container}>
-                        <h1 className={styles.main}>Log In to view your list</h1>
+                        <h1 className={styles.main}>Sign in to view list</h1>
+                        <Button variant="contained" onClick={() => router.push('./authentication')}>Sign in</Button>
                     </div>
                 </div>
                 
