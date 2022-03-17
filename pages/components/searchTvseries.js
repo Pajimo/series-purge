@@ -5,7 +5,7 @@ import ImageListItemBar from '@mui/material/ImageListItemBar';
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import {firebaseConfig, database} from '../../firebaseConfig'
-import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
+import { getAuth, onAuthStateChanged} from "firebase/auth";
 import { collection, addDoc, doc, setDoc } from 'firebase/firestore';
 import { useRouter } from "next/router";
 import { Button } from "@mui/material";
@@ -40,21 +40,6 @@ const SearchMovie = () =>{
         setCurrentUser(auth.currentUser)
     }, [])
 
-
-    const signedOut = () =>{
-        if(currentUser){
-            signOut(auth).then(() => {
-                toast("Sign-out successful")
-                setCurrentUser('')
-            }).catch((error) => {
-                // An error happened.
-                console.log(error)
-            });
-        }else{
-            router.push('./authentication')
-        }
-    }
-
     var options = {
         method: 'GET',
         headers:{
@@ -69,19 +54,6 @@ const SearchMovie = () =>{
         const data = await response.json()
         setIsLoading(false)
         setSearchData(data.results)
-    }
-
-    const handleSubmit = (e) =>{
-        e.preventDefault()
-        if(searchValue){
-            setIsLoading(true)
-            fetchMovie(searchUrl+`&query=`+searchValue)
-            setIsLoading(false)
-            toast("Search Successful")
-        }
-        else{
-            toast.error('Enter name of a Tvseries')
-        }
     }
 
     useEffect(async () =>{

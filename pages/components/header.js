@@ -1,4 +1,4 @@
-import { getAuth } from "firebase/auth";
+import { getAuth, signOut } from "firebase/auth";
 import {  useState } from "react"
 import {firebaseConfig, database} from '../../firebaseConfig'
 import { Button } from "@mui/material";
@@ -9,13 +9,13 @@ import Link from 'next/link';
 import Popover from '@mui/material/Popover';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
-
-
+import Loading from "./loadingScreen";
 
 
 
 const Header = () =>{
     const [userPageValue, setUserPageValue] = useState('')
+    const [isLoading, setIsLoading] = useState('')
     const auth = getAuth()
     const router = useRouter()
     const currentUser = auth.currentUser
@@ -33,7 +33,18 @@ const Header = () =>{
     }
 
     const authSubmit = () =>{
-        router.push('./authentication')
+        if(currentUser){
+            setIsLoading(true)
+            signOut(auth).then(() => {
+                setIsLoading(false)
+                toast("Sign-out successful")
+            }).catch((error) => {
+                // An error happened.
+                toast.error('Error Signing out')
+            });
+        }else{
+            router.push('./authentication')
+        }
     }
 
     const [anchorEl, setAnchorEl] = useState(null);
@@ -45,6 +56,13 @@ const Header = () =>{
     };
     const open = Boolean(anchorEl);
     const id = open ? 'simple-popover' : undefined;
+
+
+    if(isLoading){
+        return(
+            <Loading setIsLoading={setIsLoading}/>
+          )
+    }
     return(
         <>
             <div>
