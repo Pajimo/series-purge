@@ -89,7 +89,8 @@ const Header = () =>{
                             vertical: 'bottom',
                             horizontal: 'left',
                             }}
-                        ><Typography sx={{ p: 2 }}>{currentUser ? `Welcome: ${currentUser.email}` : " "}<br></br>
+                        ><Typography sx={{ p: 2 }} className="py-5 px-10 bg-gray-400">{currentUser ? `Welcome: ${currentUser.email}` : " "}<br></br>
+                        <br></br>
                             <Button variant="contained" onClick={() => router.push('./userPersonalList')}>Saved Shows</Button><br></br>
                             <Button variant="contained" onClick={() => router.push('./')}>Profile</Button><br></br>
                             <Button aria-describedby={id} variant="contained" onClick={()=> authSubmit()}>

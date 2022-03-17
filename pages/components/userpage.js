@@ -85,18 +85,19 @@ const showParticularSeries = (id) =>{
             <div>
                 <Header />
                 <div>
-                <h1 className="m-3 font-bold">Popular Tv Shows</h1>
-                    <div className=""> 
+                <button className="m-3 font-bold p-3 rounded-lg bg-black text-white">Popular Tv Shows</button>
+                    <div className="w-full  mr-3"> 
                         {(userPagedata.map((show) =>{
-                            const {id, name, poster_path, overview} = show
+                            const {id, name, poster_path, popularity, vote_average, overview} = show
                             return(
-                                <div key={id} onClick={()=>showParticularSeries(id)} className="m-3 items-center">
+                                <div key={id} onClick={()=>showParticularSeries(id)} className="m-3 items-center flex">
                                     <div>
-                                        <img className="w-20" src={Img_Url+poster_path} alt={name}/>
+                                        <img className="w-20 md:w-52" src={Img_Url+poster_path} alt={name}/>
                                     </div>
-                                    <div className="ml-3">
-                                        {name}
+                                    <div className="ml-3 w-9/12">
+                                        <p className="font-semibold text-xl">{name}</p>
                                         <p className="truncate ">{overview}</p>
+                                        <p className="font-light text-sm">Ratings: {vote_average}</p>
                                     </div>
                                 </div>
                             )
