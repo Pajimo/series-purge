@@ -9,7 +9,8 @@ import Loading from './loadingScreen';
 
 
 const UserList = () =>{
-
+    const [showSelected, setShowSelected] = useState(false)
+    const [selectedSeriesID, setSelectedSeriesID] = useState([])
     const[myListTvseries, setMyListTvseries] = useState([])
     const [currentUser, setCurrentUser] = useState('')
     //const [isLoading, setIsLoading] = useState(true)
@@ -69,8 +70,7 @@ const UserList = () =>{
     console.log(myListId)
 
     // for selected shows
-    const [showSelected, setShowSelected] = useState(false)
-    const [selectedSeriesID, setSelectedSeriesID] = useState([])
+
     const closeParticularSeries =() =>{
         setShowSelected(false)
     }
