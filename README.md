@@ -1,3 +1,5 @@
+Quick info,  to be able to access the database, you will need to get your personal keys and config from the firebase website. I have hidden mine so running the code locally will result in error. After you clone, get your personal firebase config for running. It is important for the database part especially except you have your way around the back end.
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
