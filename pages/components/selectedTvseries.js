@@ -46,7 +46,7 @@ const SelectedTvseries = ({closeParticularSeries, showSelected, selectedSeriesID
         return null
     }
     const Img_Url = "https://image.tmdb.org/t/p/w300"
-    const {id, name, overview, poster_path, number_of_seasons, next_episode_to_air} = selectedTvseriesInfo
+    const {id, name, overview, poster_path, number_of_seasons, next_episode_to_air, status} = selectedTvseriesInfo
     return(
         <>
         
@@ -61,13 +61,15 @@ const SelectedTvseries = ({closeParticularSeries, showSelected, selectedSeriesID
                             <div className="flex justify-center w-40 mr-10">
                                 <img src={Img_Url+poster_path} alt={name}/>
                             </div>
-                            <div>{nextEpisode ? <div><p className="mb-3 font-bold">Info for Next Episode</p>
+
+                            <div>{nextEpisode ? <div>{status}
+                                    <p className="mb-3 font-bold">Info for Next Episode</p>
                                     <p className="mb-2">Title: {nextEpisode.name}</p>
                                     <p className="mb-2">Air date: {nextEpisode.air_date}</p>
                                     <p className="mb-2">Episode: {nextEpisode.episode_number}</p>
-                                    <p className="mb-2">Season: {nextEpisode.season_number}</p></div>: "" }  
+                                    <p className="mb-2">Season: {nextEpisode.season_number}</p></div>: status }  
                                     <div>
-                                <AddToList id={id} name={name} poster_path={poster_path} next_episode_to_air={next_episode_to_air}/>
+                                <AddToList id={id} name={name} poster_path={poster_path} next_episode_to_air={next_episode_to_air} status={status}/>
                                 {auth.currentUser ? <RemoveShow id={id} name={name} /> : ""}
                             </div> 
                             </div>

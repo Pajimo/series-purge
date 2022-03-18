@@ -11,7 +11,7 @@ import { FaCheck } from "react-icons/fa";
 
 
 
-const AddToList = ({id, next_episode_to_air, name, poster_path}) =>{
+const AddToList = ({id, next_episode_to_air, name, poster_path, status}) =>{
 
     const [forList, setForList] = useState([])
     const [checking, setChecking] = useState(false)
@@ -61,7 +61,8 @@ const AddToList = ({id, next_episode_to_air, name, poster_path}) =>{
                             name,
                             id,
                             next_episode_to_air,
-                            poster_path
+                            poster_path,
+                            status
                           });
                           setChecking(false)
                           setSuccess(true)

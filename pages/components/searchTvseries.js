@@ -17,28 +17,27 @@ import Header from './header';
 const SearchMovie = () =>{
 
     const [searchdata, setSearchData] = useState([])
-    const [currentUser, setCurrentUser] = useState('')
-    const [searchValue, setSearchValue]= useState('')
     const [isLoading, setIsLoading] = useState(false)
     const [selectedSeriesID, setSelectedSeriesID] = useState([])
     const [showSelected, setShowSelected] = useState(false)
+    const [genreId, setGenreId] = useState()
     const auth = getAuth();
     
     const router = useRouter()
     const { query: { userPageValue }} = router
 
     const Img_Url = "https://image.tmdb.org/t/p/w500"
-
     const apiKey = 'api_key=4e73e1dfa07d9055c678d3e4ad6ac341'
-
     const baseUrl = `https://api.themoviedb.org/3`
-    
     const searchUrl = baseUrl+'/search/tv?'+apiKey
+    const seriesOnAir = baseUrl + '/tv/on_the_air?' + apiKey
+    const discoverByGenre = baseUrl + "/tv/" + genreId + "?" + apiKey
+    const latestShow = baseUrl + '/tv/latest?' + apiKey;
+    const airingToday = baseUrl + '/tv/airing_today?' + apiKey
+    const topRated = baseUrl + '/tv/top_rated?' + apiKey;
+    const popular = baseUrl + '/tv/popular?' + apiKey;
 
 
-    useEffect(() =>{
-        setCurrentUser(auth.currentUser)
-    }, [])
 
     var options = {
         method: 'GET',
@@ -80,13 +79,51 @@ const SearchMovie = () =>{
         )
     }
 
+
+    if(searchdata.length === 0){
+        return(
+            <>
+                <ToastContainer/>
+                <div>
+                    <Header />
+                    <div className='text-white'>
+                    <div className="flex justify-center">
+                        <div className="logo"></div>
+                    </div>
+                         <div>
+                            <p className='pb-5 mb-5 mx-5 font-bold border-b-4 text-xl text-black '>Discover Tv-Shows</p>
+                        </div>
+                        <div className='grid md:grid-cols-3 grid-cols-2 place-items-center border-b-4 mb-5'>
+                            <div>
+                                <button className='bg-zinc-500 font-semibold text-lg border-2 m-5 w-40 md:w-52 py-3 rounded-2xl text-white' onClick={() => fetchMovie(seriesOnAir)}>Currently airing</button>
+                            </div>
+                            <div><button className='bg-zinc-500 w-40 md:w-52 font-semibold text-lg border-2 m-5 py-3 rounded-2xl text-white' onClick={() => fetchMovie(latestShow)}>Latest Shows</button></div>
+                            <div><button className='bg-zinc-500 w-40 md:w-52 font-semibold text-lg border-2 m-5 py-3 rounded-2xl ' onClick={() => fetchMovie(topRated)}>Top Rated shows</button></div>
+                            <div><button className='bg-zinc-500 w-40 md:w-52 font-semibold text-lg border-2 m-5 py-3 rounded-2xl ' onClick={() => fetchMovie(airingToday)}>Airing Today</button></div>
+                            <div><button className='bg-zinc-500 w-40 md:w-52 font-semibold text-lg border-2 m-5 py-3 rounded-2xl ' onClick={() => fetchMovie(popular)}>Popular</button></div>
+                        </div>
+                    </div>
+                </div>
+            </>
+        )
+    }
+
+
+    // Weird trick to cause a re-render, no serious use #ignore
+    const goBack = () =>{
+        setSearchData([])
+    }
+
     return (
         <>
         <ToastContainer/>
             <div>
                 
                <Header />
-                <div className='flex flex-row flex-wrap mx-2 md:mx-5 mt-10'>
+               <button onClick={() =>goBack()} className='rounded-2xl bg-black text-white p-3 m-3'>
+                   Back
+               </button>
+                <div className='flex flex-row flex-wrap mx-2 md:mx-5 mt-5'>
                     {searchdata.map((data) =>{
                     const {id, name, poster_path, overview} = data;
                     return(

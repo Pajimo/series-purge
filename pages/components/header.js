@@ -103,12 +103,13 @@ const Header = () =>{
                             anchorOrigin={{
                             vertical: 'bottom',
                             horizontal: 'left',
+                            
                             }}
-                        ><Typography sx={{ p: 2 }} className="py-5 px-10 bg-gray-400">{currentUser ? `Welcome: ${currentUser.email}` : " "}<br></br>
+                        ><Typography sx={{ p: 2 }} className="py-5 px-5 bg-gray-400 border-4 ">{currentUser ? `Welcome: ${currentUser.email}` : " "}<br></br>
                         <br></br>
-                            <Button variant="contained" onClick={() => router.push('./userPersonalList')}>Saved Shows</Button><br></br>
-                            <Button variant="contained" onClick={() => goToProfile()}>Profile</Button><br></br>
-                            <Button aria-describedby={id} variant="contained" onClick={()=> authSubmit()}>
+                            <Button className="mb-7" variant="contained" onClick={() => router.push('./userPersonalList')}>Saved Shows</Button><br></br>
+                            <Button className="mb-7" variant="contained" onClick={() => goToProfile()}>Profile</Button><br></br>
+                            <Button className="mb-7" aria-describedby={id} variant="contained" onClick={()=> authSubmit()}>
                                 {currentUser ? 'Sign Out' : "Sign In"}
                             </Button>
                         </Typography>
@@ -123,7 +124,7 @@ const Header = () =>{
                             <button>My List</button>
                         </Link>
                         <Link href="./searchTvseries">
-                            <button>Search</button>
+                            <button>Discover</button>
                         </Link>
                     </div>
                 </div>

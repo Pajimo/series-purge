@@ -203,7 +203,7 @@ const LoginSignup = () =>{
                     setLogin(true)}}
                     className='uppercase underline-offset-4 underline'>Already a Member? Log in here</button> </h1>
                 </div>
-                <div className="mb-10 text-lg uppercase underline-offset-4 underline">
+                <div className="mb-10 text-lg uppercase underline-offset-4 underline text-center cursor-pointer">
                   <p onClick={()=> router.push('./userpage')}>Go to homepage</p>
                 </div>
                 </div>
@@ -232,6 +232,7 @@ const LoginSignup = () =>{
                     <TextField required className="mb-5" label="Email Address" variant="standard"
                           sx={{
                             width: 400,
+                            height: 60,
                             maxWidth: '100%',
                           }} type='email' value={email} onChange={(e)=> setEmail(e.target.value)} /><br></br>
                     <TextField required InputProps={{ endAdornment: <InputAdornment position="end" onClick={handleClickShowPassword}>
@@ -262,7 +263,7 @@ const LoginSignup = () =>{
                     setSignUp(true)}}
                     className='uppercase underline-offset-4 underline pb-2'>Create one</button> </h1>
                 </div>
-                <div className="mb-10 text-lg uppercase underline-offset-4 underline">
+                <div className="mb-10 text-lg uppercase underline-offset-4 underline text-center cursor-pointer">
                   <p onClick={()=> router.push('./userpage')}>Go to homepage</p>
                 </div>
               </div>

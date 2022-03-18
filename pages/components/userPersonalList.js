@@ -98,7 +98,7 @@ const UserList = () =>{
                 <Header />
                 <div className='m-2 mt-5 grid md:grid-cols-3 grid-cols-2'>
                 {myListTvseries.map((series) =>{
-                    const {id, name, poster_path, next_episode_to_air} = series
+                    const {id, name, poster_path, next_episode_to_air, status} = series
                     return(
                         <div key={id} className='' onClick={()=> showParticularSeries(id)}>
                             <div className='flex flex-row items-center mb-5 '>
@@ -107,7 +107,8 @@ const UserList = () =>{
                                 </div>
                                 <div>
                                     <h1 className='font-bold'>{name}</h1>
-                                    {next_episode_to_air ? `Next Episode: ${next_episode_to_air.air_date}` : " "}
+                                    {next_episode_to_air ? `Next Episode: ${next_episode_to_air.air_date}` : "No next date"}
+                                    {status}
                                 </div>
                             </div>
                         </div>
