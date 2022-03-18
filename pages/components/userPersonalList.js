@@ -56,8 +56,8 @@ const UserList = () =>{
                 <Header />
                 <div className='font-bold'>
                     <div className={styles.container}>
-                        <h1 className={styles.main}>Sign in to view list</h1>
-                        <Button variant="contained" onClick={() => router.push('./authentication')}>Sign in</Button>
+                        <div className={styles.main}><h1 className='mb-5'>Sign in to view list</h1>
+                        <Button variant="contained" onClick={() => router.push('./authentication')}>Sign in</Button></div>
                     </div>
                 </div>
                 

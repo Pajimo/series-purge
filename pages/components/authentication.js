@@ -10,14 +10,11 @@ import {firebaseConfig, database} from '../../firebaseConfig'
 import TextField from '@mui/material/TextField';
 import { useRouter } from 'next/router'
 import { ToastContainer, toast } from 'react-toastify';
-import UserPage from './userpage'
 import 'react-toastify/dist/ReactToastify.css';
 import Loading from "./loadingScreen";
-import Header from './header'
 import {MdVisibility} from "react-icons/md";
 import {MdVisibilityOff} from "react-icons/md";
 import InputAdornment from '@mui/material/InputAdornment';
-import IconButton from '@mui/material/IconButton';
 
 const LoginSignup = () =>{
 
@@ -90,10 +87,11 @@ const LoginSignup = () =>{
         try {
             const res = await signInWithPopup(auth, googleProvider);
             const user = res.user;
-            const q = query(collection(db, "users"), where("uid", "==", user.uid));
+            setUser(user)
+            const q = query(collection(database, "users"), where("uid", "==", user.uid));
             const docs = await getDocs(q);
             if (docs.docs.length === 0) {
-                await addDoc(collection(db, "users"), {
+                await addDoc(collection(database, "users"), {
                     uid: user.uid,
                     name: user.displayName,
                     authProvider: "google",

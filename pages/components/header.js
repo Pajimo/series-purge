@@ -10,6 +10,7 @@ import Popover from '@mui/material/Popover';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import Loading from "./loadingScreen";
+import { ToastContainer, toast } from 'react-toastify';
 
 
 
@@ -66,6 +67,7 @@ const Header = () =>{
     }
     return(
         <>
+        <ToastContainer />
             <div>
                 <div className=' bg-slate-400 text-white'>
                     <div className='flex flex-row justify-between items-center mx-5'>
