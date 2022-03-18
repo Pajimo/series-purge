@@ -54,10 +54,10 @@ const UserList = () =>{
         return(
             <>
                 <Header />
-                <div className='font-bold'>
+                <div className='font-semibold'>
                     <div className={styles.container}>
-                        <div className={styles.main}><h1 className='mb-5'>Sign in to view list</h1>
-                        <Button variant="contained" onClick={() => {
+                        <div className={styles.main}><h1 className='mb-10 text-3xl'>Sign in to view list</h1>
+                        <Button className='w-52' variant="contained" onClick={() => {
                             setIsLoading(true)
                             router.push('./authentication')}}>Sign in</Button></div>
                     </div>
@@ -90,12 +90,12 @@ const UserList = () =>{
         <>
             <div>
                 <Header />
-                <div className='m-2'>
+                <div className='m-2 mt-5 grid md:grid-cols-3 grid-cols-2'>
                 {myListTvseries.map((series) =>{
                     const {id, name, poster_path, next_episode_to_air} = series
                     return(
                         <div key={id} className='' onClick={()=> showParticularSeries(id)}>
-                            <div className='flex flex-row items-center md:grid md:grid-cols-3 gap-4'>
+                            <div className='flex flex-row items-center mb-5 '>
                                 <div className='w-20 mr-2 md:w-40'>
                                     <img src={Img_Url+poster_path} alt={name}/>
                                 </div>

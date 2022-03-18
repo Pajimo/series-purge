@@ -153,22 +153,22 @@ const LoginSignup = () =>{
                         width: 400,
                         maxWidth: '100%',
                         }}/><br></br>
-                    <Button className='w-full rounded-3xl mb-10' onClick = {(e) =>{
+                    <button className='w-full rounded-3xl mb-5 bg-slate-400 p-3 text-lg font-semibold' onClick = {(e) =>{
                     e.preventDefault();
                     signUp()
-                }} variant="contained" size="normal">Sign Up</Button>
-                <Button className='w-full rounded-3xl mb-10' onClick = {(e) =>{
+                }} variant="contained" size="normal">Sign Up</button>
+                <button className='w-full rounded-3xl mb-5 bg-slate-400 p-3 text-lg font-semibold' onClick = {(e) =>{
                     e.preventDefault();
                     signInWithGoogle()
-                }} variant="contained" size="normal">Sign In with Google</Button>
+                }} variant="contained" size="normal">Sign In with Google</button>
                 </form>
                 <div>
                 </div>
                 <div>
-                  <h1 className="text-lg text-center" >Already a Member? Log in <button onClick={()=> {
+                  <h1 className="text-lg text-center mb-10" > <button onClick={()=> {
                     setSignUp(false)
                     setLogin(true)}}
-                    className='uppercase underline-offset-4 underline'>here</button> </h1>
+                    className='uppercase underline-offset-4 underline'>Already a Member? Log in here</button> </h1>
                 </div>
                 </div>
             </div>
@@ -206,14 +206,14 @@ const LoginSignup = () =>{
                         width: 400,
                         maxWidth: '100%',
                         }}/><br></br>
-                    <Button className='w-full rounded-3xl mb-10' onClick = {(e) =>{
+                    <button className='w-full rounded-3xl mb-10 bg-slate-400 p-3 text-lg font-semibold' onClick = {(e) =>{
                     e.preventDefault();
                     signIn()
-                }} variant="contained" size="normal">Login</Button><br></br>
-                <Button className='w-full rounded-3xl mb-10' onClick = {(e) =>{
+                }} variant="contained" size="normal">Login</button><br></br>
+                <button className='w-full rounded-3xl mb-10 bg-slate-400 p-3 text-lg font-semibold' onClick = {(e) =>{
                     e.preventDefault();
                     signInWithGoogle()
-                }} variant="contained" size="normal">Continue with Google</Button>
+                }} variant="contained" size="normal">Continue with Google</button>
                 </form>
                 <div>
                 </div>
