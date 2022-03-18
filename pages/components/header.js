@@ -117,15 +117,15 @@ const Header = () =>{
                         </div>
                     </div>
                     <div className="flex flex-row justify-evenly pb-5 text-xl font-semibold">
-                        <Link href='./userpage'>
-                            <button className=''>Shows</button>
-                        </Link>
-                        <Link href='./userPersonalList'>
-                            <button>My List</button>
-                        </Link>
-                        <Link href="./searchTvseries">
-                            <button>Discover</button>
-                        </Link>
+                            <button onClick={() => {
+                                setIsLoading(true)
+                                router.push('./userpage')}} className=''>Shows</button>
+                            <button onClick={() => {
+                                setIsLoading(true)
+                                router.push('./userPersonalList')}}>My List</button>
+                            <button onClick={() => {
+                                setIsLoading(true)
+                                router.push("./searchTvseries")}}>Discover</button>
                     </div>
                 </div>
             </div>
