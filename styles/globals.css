@@ -10,6 +10,22 @@
     radial-gradient(at 20% 20%, hsla(339,49%,30%,1) 0, transparent 50%);
 }
 
+.logo{
+    width: 200px;
+    height:200px;
+    padding: 1rem;
+  
+    background-image: url(https://s.marketwatch.com/public/resources/images/MW-GF945_billio_ZG_20180321134639.jpg);
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+  
+    mask-image: url(https://res.cloudinary.com/pajimo/image/upload/v1647610106/Untitled_1.png);
+    mask-size: contain;
+    mask-repeat: no-repeat;
+    mask-position: center;
+}
+
 
 html,
 body {

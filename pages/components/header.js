@@ -46,7 +46,7 @@ const Header = () =>{
             router.push('./authentication')
         }
     }
-
+// popper code for modal
     const [anchorEl, setAnchorEl] = useState(null);
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
@@ -100,7 +100,7 @@ const Header = () =>{
                         </Popover>
                         </div>
                     </div>
-                    <div className="flex flex-row justify-evenly pb-5">
+                    <div className="flex flex-row justify-evenly pb-5 text-xl font-semibold">
                         <Link href='./userpage'>
                             <button className=''>Shows</button>
                         </Link>
