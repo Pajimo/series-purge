@@ -43,6 +43,7 @@ const Header = () =>{
                 toast.error('Error Signing out')
             });
         }else{
+            setIsLoading(true)
             router.push('./authentication')
         }
     }

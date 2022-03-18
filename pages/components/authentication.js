@@ -36,6 +36,10 @@ const LoginSignup = () =>{
     const router = useRouter()
 
 
+    useEffect(() =>{
+      setIsLoading(false)
+    }, [])
+
     const signUp = () =>{
         setIsLoading(true)
     createUserWithEmailAndPassword(auth, email, password)
