@@ -55,6 +55,7 @@ const UserPage = () =>{
 
 
     useEffect(async() =>{
+        setIsLoading(false)
         const response = await fetch(baseUrl, options)
         const data = await response.json()
         setUserPageData(data.results)

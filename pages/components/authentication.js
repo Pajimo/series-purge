@@ -63,11 +63,10 @@ const LoginSignup = () =>{
 }
   
     const signIn = async () =>{
-          setIsLoading(true)
          signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
-            // Signed in 
             setIsLoading(true)
+            // Signed in 
             setUser(userCredential.user);
             toast('Signed In Successsfully')
             router.push('./userpage')     
@@ -77,10 +76,10 @@ const LoginSignup = () =>{
       const errorCode = error.code;
       const errorMessage = error.message;
       if(error.code === 'auth/wrong-password'){
-        toast.error('Please check the Password');
+        toast.error('Invalid Password');
       }
       if(error.code === 'auth/user-not-found'){
-        toast.error('Please check the Email');
+        toast.error('Invalid Email Address');
       }
     });
     }
@@ -164,7 +163,7 @@ const LoginSignup = () =>{
                      <TextField InputProps={{ endAdornment: <InputAdornment position="end" onClick={handleClickShowPassword}>
                           {showPassword ? <MdVisibilityOff /> : <MdVisibility />}
                       </InputAdornment>}}
-                        className="mb-10" id="outlined-basic" label="Password" variant="standard" 
+                        className="mb-10 cursor-pointer" id="outlined-basic" label="Password" variant="standard" 
                         type={showPassword ? 'text' : "password"} value={password} onChange={(e)=> setPassword(e.target.value)} sx={{
                         width: 400,
                         maxWidth: '100%',
@@ -214,15 +213,15 @@ const LoginSignup = () =>{
                             width: 400,
                             maxWidth: '100%',
                           }}type="text" value={email} onChange={(e)=> setEmail(e.target.value)} /><br></br>
-                    <TextField InputProps={{ endAdornment: <InputAdornment position="end" onClick={handleClickShowPassword}>
+                    <TextField className='cursor-pointer' InputProps={{ endAdornment: <InputAdornment position="end" onClick={handleClickShowPassword}>
                           {showPassword ? <MdVisibilityOff /> : <MdVisibility />}
                       </InputAdornment>}}
-                        className="mb-10" id="outlined-basic" label="Password" variant="standard" 
+                        className="mb-10 cursor-pointer" id="outlined-basic" label="Password" variant="standard" 
                         type={showPassword ? 'text' : "password"} value={password} onChange={(e)=> setPassword(e.target.value)} sx={{
                         width: 400,
                         maxWidth: '100%',
                         }}/><br></br>
-                    <button className='w-full rounded-3xl mb-10 mt-5 bg-slate-400 p-2 text-lg font-semibold' onClick = {(e) =>{
+                    <button className='w-full rounded-3xl mb-5 mt-5 bg-slate-400 p-2 text-lg font-semibold' onClick = {(e) =>{
                     e.preventDefault();
                     signIn()
                 }} variant="contained" size="normal">Login</button><br></br>
