@@ -59,6 +59,18 @@ const Header = () =>{
     const open = Boolean(anchorEl);
     const id = open ? 'simple-popover' : undefined;
 
+    const goToProfile = () =>{
+        if(auth.currentUser){
+            router.push('./profile')
+        }else{
+            toast.error('LogIn to access your profile page')
+            setTimeout(() =>{
+                router.push('./authentication')
+            }, 2000)
+
+        }
+    }
+
 
     if(isLoading){
         return(
@@ -80,9 +92,9 @@ const Header = () =>{
                             </form>
                         </div>
                         <div className="flex flex-row justify-evenly py-4">
-                        <Button aria-describedby={id} variant="contained" onClick={handleClick}>
-                            <BsPersonFill />
-                        </Button>
+                        <button onClick={handleClick} className='rounded-xl shadow-2xl shadow-black bg-slate-600 px-4 py-2 text-center'>
+                            <p><BsPersonFill size={25} className="flex justify-center"/></p>
+                        </button>
                         <Popover
                             id={id}
                             open={open}
@@ -95,7 +107,7 @@ const Header = () =>{
                         ><Typography sx={{ p: 2 }} className="py-5 px-10 bg-gray-400">{currentUser ? `Welcome: ${currentUser.email}` : " "}<br></br>
                         <br></br>
                             <Button variant="contained" onClick={() => router.push('./userPersonalList')}>Saved Shows</Button><br></br>
-                            <Button variant="contained" onClick={() => router.push('./')}>Profile</Button><br></br>
+                            <Button variant="contained" onClick={() => goToProfile()}>Profile</Button><br></br>
                             <Button aria-describedby={id} variant="contained" onClick={()=> authSubmit()}>
                                 {currentUser ? 'Sign Out' : "Sign In"}
                             </Button>

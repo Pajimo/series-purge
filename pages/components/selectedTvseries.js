@@ -1,9 +1,12 @@
 import { useState, useEffect } from "react"
 import AddToList from "./addToList"
 import RemoveShow from "./removeFromList"
+import { getAuth, onAuthStateChanged} from "firebase/auth";
 
 
 const SelectedTvseries = ({closeParticularSeries, showSelected, selectedSeriesID}) =>{
+
+    const auth = getAuth()
 
     const [selectedTvseriesInfo, setSelectedTvseriesInfo] = useState([])
     const [nextEpisode, setNextEpisode] = useState([])
@@ -65,7 +68,7 @@ const SelectedTvseries = ({closeParticularSeries, showSelected, selectedSeriesID
                                     <p className="mb-2">Season: {nextEpisode.season_number}</p></div>: "" }  
                                     <div>
                                 <AddToList id={id} name={name} poster_path={poster_path} next_episode_to_air={next_episode_to_air}/>
-                                <RemoveShow id={id} name={name} />
+                                {auth.currentUser ? <RemoveShow id={id} name={name} /> : ""}
                             </div> 
                             </div>
                         </div>

@@ -50,6 +50,12 @@ const UserList = () =>{
         });
     }, [])
 
+    if(isLoading){
+        return(
+            <Loading setIsLoading={setIsLoading}/>
+            )
+    }
+
     if(!auth.currentUser){
         return(
             <>

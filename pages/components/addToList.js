@@ -76,10 +76,11 @@ const AddToList = ({id, next_episode_to_air, name, poster_path}) =>{
                     //     next_episode_to_air,
                     //     poster_path
                     // })
+                } else{
                 // ...
                 // User is signed out
                 // ...
-                toast.error("Please Log In to add to List")
+                    toast.error("Please Log In to add to List")
                 }
             });
     }

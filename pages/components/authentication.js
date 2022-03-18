@@ -17,6 +17,7 @@ import Loading from "./loadingScreen";
 import {MdVisibility} from "react-icons/md";
 import {MdVisibilityOff} from "react-icons/md";
 import InputAdornment from '@mui/material/InputAdornment';
+import { async } from "@firebase/util";
 
 const LoginSignup = () =>{
 
@@ -42,8 +43,20 @@ const LoginSignup = () =>{
     const signUp = () =>{
         setIsLoading(true)
     createUserWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
+    .then( async (userCredential) => {
       // Signed in 
+      const q = query(collection(database, "users"), where("uid", "==", user.uid));
+      const docs = await getDocs(q);
+      if (docs.docs.length === 0) {
+        await addDoc(collection(database, "users"), {
+          uid: user.uid,
+          name: firstName + " " + lastName,
+          firstName: firstName,
+          lastName: lastName,
+          authProvider: "Email/Password",
+          email: user.email,
+        });
+      }
       sendEmailVerification(auth.currentUser)
       setUser(userCredential.user);
       router.push('./userpage') 
@@ -85,13 +98,18 @@ const LoginSignup = () =>{
     }
 
     const resetPassword =() =>{
+      setIsLoading(true)
       sendPasswordResetEmail(auth, email)
         .then(() => {
+          setIsLoading(false)
+          toast('Password reset link sent your email')
           // Password reset email sent!
           // ..
         })
         .catch((error) => {
+          setIsLoading(false)
           const errorCode = error.code;
+          toast.error(errorCode)
           const errorMessage = error.message;
           // ..
         });
@@ -141,11 +159,11 @@ const LoginSignup = () =>{
             <div className='md:basis-1/2 mx-5 md:flex md:justify-center'>
               <div>
                 <div className="flex justify-center">
-                  <div className="logo"></div>
+                  <div className="logo" onClick={() => router.push('./userpage')}></div>
                 </div>
                 <h1 className="text-4xl font-bold text-center">Create Account</h1>
                   <form  className="mt-5">
-                        <TextField className="mb-5" label="First Name" variant="standard" 
+                        <TextField required className="mb-5" label="First Name" variant="standard" 
                             sx={{
                               width: 400,
                               maxWidth: '100%',
@@ -155,12 +173,12 @@ const LoginSignup = () =>{
                             width: 400,
                             maxWidth: '100%',
                           }}type="text" value={lastName} onChange={(e)=> setLastName(e.target.value)} /><br></br>
-                    <TextField className="mb-5" label="Email Address" variant="standard" 
+                    <TextField required className="mb-5" label="Email Address" variant="standard" 
                           sx={{
                             width: 400,
                             maxWidth: '100%',
-                          }}type="text" value={email} onChange={(e)=> setEmail(e.target.value)} /><br></br>
-                     <TextField InputProps={{ endAdornment: <InputAdornment position="end" onClick={handleClickShowPassword}>
+                          }}type="email" value={email} onChange={(e)=> setEmail(e.target.value)} /><br></br>
+                     <TextField required InputProps={{ endAdornment: <InputAdornment position="end" onClick={handleClickShowPassword}>
                           {showPassword ? <MdVisibilityOff /> : <MdVisibility />}
                       </InputAdornment>}}
                         className="mb-10 cursor-pointer" id="outlined-basic" label="Password" variant="standard" 
@@ -175,15 +193,18 @@ const LoginSignup = () =>{
                 <button className='w-full rounded-3xl mb-5 bg-slate-400 p-2 text-lg font-semibold' onClick = {(e) =>{
                     e.preventDefault();
                     signInWithGoogle()
-                }} variant="contained" size="normal">Sign In with Google</button>
+                }} variant="contained" size="normal">Continue with Google</button>
                 </form>
                 <div>
                 </div>
                 <div>
-                  <h1 className="text-lg text-center mb-10" > <button onClick={()=> {
+                  <h1 className="text-lg text-center mb-2" > <button onClick={()=> {
                     setSignUp(false)
                     setLogin(true)}}
                     className='uppercase underline-offset-4 underline'>Already a Member? Log in here</button> </h1>
+                </div>
+                <div className="mb-10 text-lg uppercase underline-offset-4 underline">
+                  <p onClick={()=> router.push('./userpage')}>Go to homepage</p>
                 </div>
                 </div>
             </div>
@@ -208,12 +229,12 @@ const LoginSignup = () =>{
                 <h1 className="text-4xl font-bold text-center">Welcome</h1>
                 <p className='text-center'>Log in to access your Tv-show list</p>
                 <form className="mt-10">
-                    <TextField className="mb-5" label="Email Address" variant="standard"
+                    <TextField required className="mb-5" label="Email Address" variant="standard"
                           sx={{
                             width: 400,
                             maxWidth: '100%',
-                          }}type="text" value={email} onChange={(e)=> setEmail(e.target.value)} /><br></br>
-                    <TextField className='cursor-pointer' InputProps={{ endAdornment: <InputAdornment position="end" onClick={handleClickShowPassword}>
+                          }} type='email' value={email} onChange={(e)=> setEmail(e.target.value)} /><br></br>
+                    <TextField required InputProps={{ endAdornment: <InputAdornment position="end" onClick={handleClickShowPassword}>
                           {showPassword ? <MdVisibilityOff /> : <MdVisibility />}
                       </InputAdornment>}}
                         className="mb-10 cursor-pointer" id="outlined-basic" label="Password" variant="standard" 
@@ -233,13 +254,16 @@ const LoginSignup = () =>{
                 <div>
                 </div>
                 <div>
-                  <p className="uppercase text-normal mb-5 underline-offset-4 text-center" onClick={() => resetPassword()}>Forgot Password?</p>
+                  <p className="uppercase text-normal mb-5 underline-offset-4 text-center underline" onClick={() => resetPassword()}>Forgot Password?</p>
                 </div>
                 <div>
                   <h1 className="text-lg text-center">New Member? <button onClick={()=> {
                     setLogin(false)
                     setSignUp(true)}}
-                    className='uppercase underline-offset-4 underline pb-10'>Create one</button> </h1>
+                    className='uppercase underline-offset-4 underline pb-2'>Create one</button> </h1>
+                </div>
+                <div className="mb-10 text-lg uppercase underline-offset-4 underline">
+                  <p onClick={()=> router.push('./userpage')}>Go to homepage</p>
                 </div>
               </div>
             </div>

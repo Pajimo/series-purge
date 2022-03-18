@@ -6,7 +6,6 @@ import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import Button from '@mui/material/Button';
 import CircularProgress from '@mui/material/CircularProgress';
-//import  from '@mui/icons-material/Check';
 import { FaCheck } from "react-icons/fa";
 
 
@@ -60,7 +59,7 @@ const RemoveShow =({id, name}) =>{
             } else {
             // User is signed out
             // ...
-            toast.error("Please Log In to add to List")
+            toast.error("Please Log In to access your list")
             }
         });
 }
