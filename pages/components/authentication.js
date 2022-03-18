@@ -4,7 +4,7 @@ import { getAuth,
     createUserWithEmailAndPassword, 
     signInWithEmailAndPassword, 
     sendEmailVerification } from "firebase/auth";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from '@mui/material';
 import {firebaseConfig, database} from '../../firebaseConfig'
 import TextField from '@mui/material/TextField';
