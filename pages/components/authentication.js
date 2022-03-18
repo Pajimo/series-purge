@@ -3,7 +3,8 @@ import { getAuth,
     signInWithPopup,
     createUserWithEmailAndPassword, 
     signInWithEmailAndPassword, 
-    sendEmailVerification } from "firebase/auth";
+    sendEmailVerification,
+    sendPasswordResetEmail } from "firebase/auth";
 import { useEffect, useState } from "react";
 import { collection, addDoc, getDocs, query, where } from 'firebase/firestore';
 import { Button } from '@mui/material';
@@ -43,6 +44,7 @@ const LoginSignup = () =>{
     createUserWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
       // Signed in 
+      sendEmailVerification(auth.currentUser)
       setUser(userCredential.user);
       router.push('./userpage') 
       // ...
@@ -61,6 +63,7 @@ const LoginSignup = () =>{
 }
   
     const signIn = async () =>{
+          setIsLoading(true)
          signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
             // Signed in 
@@ -81,6 +84,19 @@ const LoginSignup = () =>{
       }
     });
     }
+
+    const resetPassword =() =>{
+      sendPasswordResetEmail(auth, email)
+        .then(() => {
+          // Password reset email sent!
+          // ..
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          // ..
+        });
+      }
 
     const googleProvider = new GoogleAuthProvider();
     const signInWithGoogle = async () => {
@@ -153,11 +169,11 @@ const LoginSignup = () =>{
                         width: 400,
                         maxWidth: '100%',
                         }}/><br></br>
-                    <button className='w-full rounded-3xl mb-5 bg-slate-400 p-3 text-lg font-semibold' onClick = {(e) =>{
+                    <button className='w-full rounded-3xl mt-5 mb-5 bg-slate-400 p-2 text-lg font-semibold' onClick = {(e) =>{
                     e.preventDefault();
                     signUp()
                 }} variant="contained" size="normal">Sign Up</button>
-                <button className='w-full rounded-3xl mb-5 bg-slate-400 p-3 text-lg font-semibold' onClick = {(e) =>{
+                <button className='w-full rounded-3xl mb-5 bg-slate-400 p-2 text-lg font-semibold' onClick = {(e) =>{
                     e.preventDefault();
                     signInWithGoogle()
                 }} variant="contained" size="normal">Sign In with Google</button>
@@ -206,11 +222,11 @@ const LoginSignup = () =>{
                         width: 400,
                         maxWidth: '100%',
                         }}/><br></br>
-                    <button className='w-full rounded-3xl mb-10 bg-slate-400 p-3 text-lg font-semibold' onClick = {(e) =>{
+                    <button className='w-full rounded-3xl mb-10 mt-5 bg-slate-400 p-2 text-lg font-semibold' onClick = {(e) =>{
                     e.preventDefault();
                     signIn()
                 }} variant="contained" size="normal">Login</button><br></br>
-                <button className='w-full rounded-3xl mb-10 bg-slate-400 p-3 text-lg font-semibold' onClick = {(e) =>{
+                <button className='w-full rounded-3xl mb-10 bg-slate-400 p-2 text-lg font-semibold' onClick = {(e) =>{
                     e.preventDefault();
                     signInWithGoogle()
                 }} variant="contained" size="normal">Continue with Google</button>
@@ -218,10 +234,13 @@ const LoginSignup = () =>{
                 <div>
                 </div>
                 <div>
+                  <p className="uppercase text-normal mb-5 underline-offset-4 text-center" onClick={() => resetPassword()}>Forgot Password?</p>
+                </div>
+                <div>
                   <h1 className="text-lg text-center">New Member? <button onClick={()=> {
                     setLogin(false)
                     setSignUp(true)}}
-                    className='uppercase underline-offset-4 underline'>Create one</button> </h1>
+                    className='uppercase underline-offset-4 underline pb-10'>Create one</button> </h1>
                 </div>
               </div>
             </div>
