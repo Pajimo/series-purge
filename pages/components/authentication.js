@@ -5,6 +5,7 @@ import { getAuth,
     signInWithEmailAndPassword, 
     sendEmailVerification } from "firebase/auth";
 import { useEffect, useState } from "react";
+import { collection, addDoc, getDocs, query, where } from 'firebase/firestore';
 import { Button } from '@mui/material';
 import {firebaseConfig, database} from '../../firebaseConfig'
 import TextField from '@mui/material/TextField';
@@ -98,6 +99,7 @@ const LoginSignup = () =>{
                     email: user.email,
                 });
             }
+            router.push('./userpage')  
         } catch (err) {
             console.error(err);
             alert(err.message);

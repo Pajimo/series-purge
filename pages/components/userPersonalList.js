@@ -15,7 +15,7 @@ const UserList = () =>{
     const [selectedSeriesID, setSelectedSeriesID] = useState([])
     const[myListTvseries, setMyListTvseries] = useState([])
     const [currentUser, setCurrentUser] = useState('')
-    //const [isLoading, setIsLoading] = useState(true)
+    const [isLoading, setIsLoading] = useState(false)
     const [myListId, setMyListId] = useState([])
 
     const Img_Url = "https://image.tmdb.org/t/p/w200"
@@ -57,7 +57,9 @@ const UserList = () =>{
                 <div className='font-bold'>
                     <div className={styles.container}>
                         <div className={styles.main}><h1 className='mb-5'>Sign in to view list</h1>
-                        <Button variant="contained" onClick={() => router.push('./authentication')}>Sign in</Button></div>
+                        <Button variant="contained" onClick={() => {
+                            setIsLoading(true)
+                            router.push('./authentication')}}>Sign in</Button></div>
                     </div>
                 </div>
                 
