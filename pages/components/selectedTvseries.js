@@ -1,12 +1,14 @@
 import { useState, useEffect } from "react"
 import AddToList from "./addToList"
 import RemoveShow from "./removeFromList"
+import moment from 'moment';
 import { getAuth, onAuthStateChanged} from "firebase/auth";
 
 
 const SelectedTvseries = ({closeParticularSeries, showSelected, selectedSeriesID}) =>{
 
     const auth = getAuth()
+    
 
     const [selectedTvseriesInfo, setSelectedTvseriesInfo] = useState([])
     const [nextEpisode, setNextEpisode] = useState([])
@@ -47,6 +49,10 @@ const SelectedTvseries = ({closeParticularSeries, showSelected, selectedSeriesID
     }
     const Img_Url = "https://image.tmdb.org/t/p/w300"
     const {id, name, overview, poster_path, number_of_seasons, next_episode_to_air, status} = selectedTvseriesInfo
+            const airdate = (next_episode_to_air.air_date);
+            const arrAirDate = [airdate]
+            console.log(moment(arrAirDate[0]).fromNow())  
+            const next_episode = (moment(arrAirDate[0]).fromNow())
     return(
         <>
         
@@ -65,7 +71,7 @@ const SelectedTvseries = ({closeParticularSeries, showSelected, selectedSeriesID
                             <div>{nextEpisode ? <div>{status}
                                     <p className="mb-3 font-bold">Info for Next Episode</p>
                                     <p className="mb-2">Title: {nextEpisode.name}</p>
-                                    <p className="mb-2">Air date: {nextEpisode.air_date}</p>
+                                    <p className="mb-2">Airing {next_episode}</p>
                                     <p className="mb-2">Episode: {nextEpisode.episode_number}</p>
                                     <p className="mb-2">Season: {nextEpisode.season_number}</p></div>: status }  
                                     <div>

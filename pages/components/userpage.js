@@ -7,6 +7,7 @@ import { useRouter } from "next/router";
 import Loading from "./loadingScreen";
 import SelectedTvseries from './selectedTvseries';
 import Header from "./header";
+import moment from 'moment';
 
 
 
@@ -15,7 +16,17 @@ const UserPage = () =>{
     const [userPagedata, setUserPageData] = useState([])
     const [isLoading, setIsLoading] = useState(false)
 
+    const days = [ 'Sunday','Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+
     const auth = getAuth();
+    const dayOfTheWeek = moment().day()
+    const dateOfTheMonth = moment().date()
+    console.log(days[dayOfTheWeek])
+    console.log(dateOfTheMonth)
+    console.log(new Date())
+    var now = moment();
+    console.log(now.format())
+    console.log(moment([2022, 2, 27]).fromNow())
     const router = useRouter()
 
     const Img_Url = "https://image.tmdb.org/t/p/original"
@@ -89,7 +100,9 @@ const showParticularSeries = (id) =>{
                 <button className="m-3 font-bold p-3 rounded-lg bg-black text-white">Popular Tv Shows</button>
                     <div className="w-full  mr-3 md:grid md:grid-cols-3"> 
                         {(userPagedata.map((show) =>{
+                            console.log(show)
                             const {id, name, poster_path, popularity, vote_average, overview} = show
+
                             return(
                                 <div key={id} onClick={()=>showParticularSeries(id)} className="m-3 items-center flex">
                                     <div>

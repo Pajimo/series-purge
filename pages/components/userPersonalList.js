@@ -8,6 +8,7 @@ import SelectedTvseries from './selectedTvseries';
 import Loading from './loadingScreen';
 import { Button } from '@mui/material';
 import { useRouter } from 'next/router';
+import moment from 'moment';
 
 
 const UserList = () =>{
@@ -96,9 +97,13 @@ const UserList = () =>{
         <>
             <div>
                 <Header />
-                <div className='m-2 mt-5 grid md:grid-cols-3 grid-cols-2'>
+                <div className='m-2 mt-5 grid md:grid-cols-3'>
                 {myListTvseries.map((series) =>{
                     const {id, name, poster_path, next_episode_to_air, status} = series
+                    const airdate = (next_episode_to_air.air_date);
+                    const arrAirDate = [airdate]
+                    console.log(moment(arrAirDate[0]).fromNow())
+                    const next_episode = (moment(arrAirDate[0]).fromNow())
                     return(
                         <div key={id} className='' onClick={()=> showParticularSeries(id)}>
                             <div className='flex flex-row items-center mb-5 '>
@@ -107,8 +112,8 @@ const UserList = () =>{
                                 </div>
                                 <div>
                                     <h1 className='font-bold'>{name}</h1>
-                                    {next_episode_to_air ? `Next Episode: ${next_episode_to_air.air_date}` : "No next date"}
-                                    {status}
+                                    {next_episode_to_air ? `Next Episode: ${next_episode}` : "No next date"}<br></br>
+                                    <p>This is a {status}</p>
                                 </div>
                             </div>
                         </div>
