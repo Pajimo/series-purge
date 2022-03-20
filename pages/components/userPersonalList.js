@@ -23,8 +23,10 @@ const UserList = () =>{
     const auth = getAuth()
     const router = useRouter()
 
+
     useEffect(() => {
         onAuthStateChanged (auth, async(user) => {
+            setIsLoading(false)
             if (user) {
                 // User is signed in, see docs for a list of available properties
                 // https://firebase.google.com/docs/reference/js/firebase.User
@@ -74,18 +76,32 @@ const UserList = () =>{
         )
     }
 
-    // if(isLoading){
-    //     return(
-    //     <Loading setIsLoading={setIsLoading}/>
-    //     )
-    // }
+    if(myListTvseries === 0){
+        return(
+            <>
+                <Header />
+                <div className='font-semibold'>
+                    <div className={styles.container}>
+                        <div className={styles.main}><h1 className='mb-10 text-3xl'>List is empty</h1>
+                        <Button className='w-52' variant="contained" onClick={() => {
+                            setIsLoading(true)
+                            router.push('./searchTvseries')}}>Add to List</Button></div>
+                    </div>
+                </div>
+                
+            </>
+        )
+    }
 
-    console.log(myListId)
+    if(isLoading){
+        return(
+        <Loading setIsLoading={setIsLoading}/>
+        )
+    }
 
-    // for selected shows
-
-    const closeParticularSeries =() =>{
+    const closeParticularSeries = () =>{
         setShowSelected(false)
+        
     }
     const showParticularSeries = (id) =>{
         const finalValue = myListTvseries.filter((curId) => curId.id === id)
@@ -93,17 +109,16 @@ const UserList = () =>{
         setShowSelected(true)
     }
 
+
     return(
         <>
             <div>
                 <Header />
                 <div className='m-2 mt-5 grid md:grid-cols-3'>
                 {myListTvseries.map((series) =>{
-                    const {id, name, poster_path, next_episode_to_air, status} = series
-                    const airdate = (next_episode_to_air.air_date);
-                    const arrAirDate = [airdate]
-                    console.log(moment(arrAirDate[0]).fromNow())
-                    const next_episode = (moment(arrAirDate[0]).fromNow())
+                    const {id, name, poster_path, next_episode_to_air, status, nextEpisode} = series
+
+                    const airdate = nextEpisode ? [nextEpisode.air_date] : "";
                     return(
                         <div key={id} className='' onClick={()=> showParticularSeries(id)}>
                             <div className='flex flex-row items-center mb-5 '>
@@ -112,7 +127,7 @@ const UserList = () =>{
                                 </div>
                                 <div>
                                     <h1 className='font-bold'>{name}</h1>
-                                    {next_episode_to_air ? `Next Episode: ${next_episode}` : "No next date"}<br></br>
+                                    {next_episode_to_air ? `Next Episode: ${(moment(airdate[0]).fromNow())}` : "Next date not available"}<br></br>
                                     <p>This is a {status}</p>
                                 </div>
                             </div>

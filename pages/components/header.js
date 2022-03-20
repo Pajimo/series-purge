@@ -81,11 +81,11 @@ const Header = () =>{
         <>
         <ToastContainer />
             <div>
-                <div className=' bg-slate-400 text-white'>
+                <div className=' bg-black text-white'>
                     <div className='flex flex-row justify-between items-center mx-5'>
                         <div className="py-4">
                             <form className=" flex flex-row" onSubmit={(e) => handleSubmit(e)}>
-                                <TextField id="standard-basic" label="Search" value={userPageValue} variant="standard" className='w-full' onChange={(e) =>{
+                                <input type='text'  placeholder="Search Tv shows" value={userPageValue} className='w-60 h-9 rounded-xl p-3 text-black' onChange={(e) =>{
                                     e.preventDefault()
                                     setUserPageValue(e.target.value)
                                 }}/>
@@ -105,13 +105,14 @@ const Header = () =>{
                             horizontal: 'left',
                             
                             }}
-                        ><Typography sx={{ p: 2 }} className="py-5 px-5 bg-gray-400 border-4 ">{currentUser ? `Welcome: ${currentUser.email}` : " "}<br></br>
+                        ><Typography sx={{ p: 2 }} className="py-5 px-5 bg-gray-900 text-white">
+                            <div>{currentUser ? `Welcome: ${currentUser.email}` : " "}</div><br></br>
                         <br></br>
-                            <Button className="mb-7" variant="contained" onClick={() => router.push('./userPersonalList')}>Saved Shows</Button><br></br>
-                            <Button className="mb-7" variant="contained" onClick={() => goToProfile()}>Profile</Button><br></br>
-                            <Button className="mb-7" aria-describedby={id} variant="contained" onClick={()=> authSubmit()}>
+                            <div className="border-b-2 py-2"><button className=" p-3 bg-slate-500  rounded-xl"  onClick={() => router.push('./userPersonalList')}>Saved Shows</button></div>
+                            <div className="border-b-2 py-2"><button className=" p-3 bg-slate-500  rounded-xl" variant="contained" onClick={() => goToProfile()}>Profile</button></div>
+                            <div className="border-b-2 py-2"><button className=" p-3 bg-slate-500 rounded-xl" aria-describedby={id} variant="contained" onClick={()=> authSubmit()}>
                                 {currentUser ? 'Sign Out' : "Sign In"}
-                            </Button>
+                            </button></div>
                         </Typography>
                         </Popover>
                         </div>

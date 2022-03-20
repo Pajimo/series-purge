@@ -11,33 +11,13 @@ import { FaCheck } from "react-icons/fa";
 
 
 
-const AddToList = ({id, next_episode_to_air, name, poster_path, status}) =>{
+const AddToList = ({id, next_episode_to_air, name, poster_path, status, nextEpisode}) =>{
 
     const [forList, setForList] = useState([])
     const [checking, setChecking] = useState(false)
     const [success, setSuccess] = useState(false)
 
     const auth = getAuth()
-
-
-    const apiKey = "?api_key=4e73e1dfa07d9055c678d3e4ad6ac341"
-    const url = "https://api.themoviedb.org/3/tv/"
-
-
-    var options = {
-        method: 'GET',
-        headers:{
-        'Authorization': '4e73e1dfa07d9055c678d3e4ad6ac341',
-        'Content-Type': 'application/json'
-        }
-    }
-
-
-    const fetchData = async() =>{
-        const response = await fetch(url, options)
-        const data = await response.json()
-        setForList(data)
-    }
 
     const addTOPersonalList = () =>{       
             onAuthStateChanged(auth, async(user) => {
@@ -52,7 +32,6 @@ const AddToList = ({id, next_episode_to_air, name, poster_path, status}) =>{
                     const tvshows = doc(database, uid, newId)
                     const checkData = await getDoc(tvshows)
                     if(checkData.exists()){
-                        console.log('err')
                         toast.error(`${name} is already in your list`)
                         setChecking(false)
                     }
@@ -62,7 +41,8 @@ const AddToList = ({id, next_episode_to_air, name, poster_path, status}) =>{
                             id,
                             next_episode_to_air,
                             poster_path,
-                            status
+                            status,
+                            nextEpisode
                           });
                           setChecking(false)
                           setSuccess(true)
@@ -90,9 +70,9 @@ const AddToList = ({id, next_episode_to_air, name, poster_path, status}) =>{
         <>
         <ToastContainer />
             <div className='mt-3'>
-                <Button variant="contained" onClick={addTOPersonalList} >
+                <button onClick={addTOPersonalList} className='p-2 bg-slate-500 rounded-xl border-2' >
                     {checking ? <CircularProgress size= {25}/> : success ? <FaCheck /> : 'Add to list'}
-                </Button>
+                </button>
             </div>
         </>
     )

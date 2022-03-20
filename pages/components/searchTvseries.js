@@ -120,7 +120,7 @@ const SearchMovie = () =>{
             <div>
                 
                <Header />
-               <button onClick={() =>goBack()} className='rounded-2xl bg-black text-white p-3 m-3'>
+               <button onClick={() =>goBack()} className='rounded-2xl bg-slate-500 text-white p-3 m-3'>
                    Back
                </button>
                 <div className='flex flex-row flex-wrap mx-2 md:mx-5 mt-5'>
@@ -141,7 +141,7 @@ const SearchMovie = () =>{
                                     position="below"
                                 />
                                 </ImageListItem>
-                            </ImageList>  
+                            </ImageList>
                         </div>
                     )
                     

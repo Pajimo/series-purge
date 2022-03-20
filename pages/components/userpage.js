@@ -97,10 +97,9 @@ const showParticularSeries = (id) =>{
             <div>
                 <Header />
                 <div>
-                <button className="m-3 font-bold p-3 rounded-lg bg-black text-white">Popular Tv Shows</button>
+                <button className="m-3 font-bold p-3 rounded-lg bg-slate-500 text-white">Popular Tv Shows</button>
                     <div className="w-full  mr-3 md:grid md:grid-cols-3"> 
                         {(userPagedata.map((show) =>{
-                            console.log(show)
                             const {id, name, poster_path, popularity, vote_average, overview} = show
 
                             return(

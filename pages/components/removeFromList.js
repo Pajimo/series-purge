@@ -1,7 +1,7 @@
 import {firebaseConfig, database} from '../../firebaseConfig'
 import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 import { collection, addDoc, doc, deleteDoc, getDoc } from 'firebase/firestore';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import Button from '@mui/material/Button';
@@ -64,13 +64,14 @@ const RemoveShow =({id, name}) =>{
         });
 }
 
+
     return(
         <>
             <div>
                 <div className='mt-3'>
-                    <Button variant="contained" onClick={removeFromList}>
-                        {checking ? <CircularProgress size= {25}/> : success ? <FaCheck /> : 'Remove From List'}
-                    </Button>
+                    <button onClick={removeFromList} className='p-2 bg-slate-500 rounded-xl border-2'>
+                        {checking ? <CircularProgress size= {25}/> : success ? <FaCheck /> : 'Remove'}
+                    </button>
                 </div>
             </div>
         </>
