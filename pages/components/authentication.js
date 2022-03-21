@@ -4,6 +4,7 @@ import { getAuth,
     createUserWithEmailAndPassword, 
     signInWithEmailAndPassword, 
     sendEmailVerification,
+    updateProfile,
     sendPasswordResetEmail } from "firebase/auth";
 import { useEffect, useState } from "react";
 import { collection, addDoc, getDocs, query, where } from 'firebase/firestore';
@@ -40,85 +41,10 @@ const LoginSignup = () =>{
       setIsLoading(false)
     }, [])
 
-    const signUp = () =>{
-        setIsLoading(true)
-    createUserWithEmailAndPassword(auth, email, password)
-    .then( async (userCredential) => {
-      // Signed in 
-      const q = query(collection(database, "users"), where("uid", "==", user.uid));
-      const docs = await getDocs(q);
-      if (docs.docs.length === 0) {
-        await addDoc(collection(database, "users"), {
-          uid: user.uid,
-          name: firstName + " " + lastName,
-          firstName: firstName,
-          lastName: lastName,
-          authProvider: "Email/Password",
-          email: user.email,
-        });
-      }
-      sendEmailVerification(auth.currentUser)
-      setUser(userCredential.user);
-      router.push('./userpage') 
-      // ...
-    })
-    .catch((error) => {
-      const errorCode = error.code;
-      console.log(errorCode)
-      const errorMessage = error.message;
-      console.log(errorMessage)
-      if (error.code === 'auth/email-already-in-use') {
-        setErrorMessage('Email Already in Use');
-      }
-      console.log(error)
-      // ..
-    });
-}
-  
-    const signIn = async () =>{
-         signInWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
-            setIsLoading(true)
-            // Signed in 
-            setUser(userCredential.user);
-            toast('Signed In Successsfully')
-            router.push('./userpage')     
-      // ...
-    })
-    .catch((error) => {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      if(error.code === 'auth/wrong-password'){
-        toast.error('Invalid Password');
-      }
-      if(error.code === 'auth/user-not-found'){
-        toast.error('Invalid Email Address');
-      }
-    });
-    }
-
-    const resetPassword =() =>{
-      setIsLoading(true)
-      sendPasswordResetEmail(auth, email)
-        .then(() => {
-          setIsLoading(false)
-          toast('Password reset link sent your email')
-          // Password reset email sent!
-          // ..
-        })
-        .catch((error) => {
-          setIsLoading(false)
-          const errorCode = error.code;
-          toast.error(errorCode)
-          const errorMessage = error.message;
-          // ..
-        });
-      }
-
     const googleProvider = new GoogleAuthProvider();
     const signInWithGoogle = async () => {
-        setIsLoading(true)
         try {
+            setIsLoading(true)
             const res = await signInWithPopup(auth, googleProvider);
             const user = res.user;
             setUser(user)
@@ -134,10 +60,112 @@ const LoginSignup = () =>{
             }
             router.push('./userpage')  
         } catch (err) {
+            setIsLoading(false)
             console.error(err);
-            alert(err.message);
+            toast.error(err.message);
         }
     };
+
+    const signUp = async() =>{
+        if(!firstName){
+          toast.error('Enter your first name')
+        }else if(!lastName){
+          toast.error('Enter your last name')
+        }else if(!password){
+          toast.error("Enter your password")
+        }else if(!email){
+          toast.error('Enter your email address')
+        }else{
+          try{
+            const res = await createUserWithEmailAndPassword(auth, email, password)
+            // Signed in 
+            setIsLoading(true)
+            const user = res.user;
+            setUser(user)
+            await updateProfile(auth.currentUser, {
+              displayName: firstName
+            })
+            const q = query(collection(database, "users"), where("uid", "==", user.uid));
+            const docs = await getDocs(q);
+            if (docs.docs.length === 0) {
+              await addDoc(collection(database, "users"), {
+                uid: user.uid,
+                name: firstName + " " + lastName,
+                firstName: firstName,
+                lastName: lastName,
+                authProvider: "Email/Password",
+                email: user.email,
+              });
+            }
+            sendEmailVerification(auth.currentUser)
+            router.push('./userpage') 
+            // ...
+          }
+          catch(error){
+            setIsLoading(false)
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            console.log(errorMessage)
+            if (error.code === 'auth/email-already-in-use') {
+              toast.error('Email Already in Use');
+            }
+            // ..
+          };
+        }
+
+}
+  
+    const signIn = async () =>{
+      if(!email){
+        toast.error("Enter your Email address")
+      }else if(!password){
+        toast.error('Enter your password')
+      }else{
+         signInWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+            setIsLoading(true)
+            // Signed in 
+            setUser(userCredential.user);
+            toast('Signed In Successsfully')
+            router.push('./userpage')     
+      // ...
+        })
+        .catch((error) => {
+          setIsLoading(false)
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          if(error.code === 'auth/wrong-password'){
+            toast.error('Invalid Password');
+          }
+          if(error.code === 'auth/user-not-found'){
+            toast.error('Invalid Email Address');
+          }
+        });
+      }
+    }
+
+    const resetPassword =() =>{
+      if(!email){
+        toast.error("Enter your email address")
+      }else{
+        setIsLoading(true)
+        sendPasswordResetEmail(auth, email)
+          .then(() => {
+            setIsLoading(false)
+            toast('Password reset link sent your email')
+            // Password reset email sent!
+            // ..
+          })
+          .catch((error) => {
+            setIsLoading(false)
+            const errorCode = error.code;
+            toast.error('Put in your email address')
+            const errorMessage = error.message;
+            // ..
+          });
+        }
+      }
+
 
     const handleClickShowPassword = () =>{
       setShowPassword(!showPassword)

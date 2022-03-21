@@ -1,6 +1,7 @@
 import {useEffect, useState} from 'react'
 import Loading from './loadingScreen';
 import CircularProgress from '@mui/material/CircularProgress';
+import { toast } from 'react-toastify';
 
 const SeasonInfo = ({id, season_number}) =>{
 
@@ -25,11 +26,16 @@ const SeasonInfo = ({id, season_number}) =>{
 
     const fetchSeasonInfo = async(url) =>{
         setChecking(true)
-        const getSeasonInfo = await fetch(url, options);
-        const response = await getSeasonInfo.json()
-        const finalResponse = await response.episodes
-        setSeasonInformation(finalResponse)
-        setChecking(false)
+        try{
+            const getSeasonInfo = await fetch(url, options);
+            const response = await getSeasonInfo.json()
+            const finalResponse = await response.episodes
+            setSeasonInformation(finalResponse)
+            setChecking(false)
+        }catch(err){
+            setChecking(false)
+            toast.error(err)
+        }   
     }
 
     useEffect( async() => {
@@ -48,13 +54,14 @@ const SeasonInfo = ({id, season_number}) =>{
             <div>
                 {checking ? <CircularProgress /> : <div>{seasonInfomation.map((season) =>{
                     const {id, name, overview, still_path, episode_number} = season;
+                    const newImage = 'https://res.cloudinary.com/pajimo/image/upload/v1647610106/Untitled_1.png'
                     return(
                         <div key={id} className="md:flex md:flex-row justify-center border-b-2 my-3 items-center">
                             <div className='md:basis-1/12 font-bold text-lg'>
                                 <p>{episode_number}</p>
                             </div>
                             <div className='md:basis-2/6 my-2'>
-                                <img src={Img_Url+still_path} alt={name} />
+                                <img src={still_path ? Img_Url+still_path : newImage} alt={name} />
                             </div>
                             <div className='md:basis-3/5 pl-3 py-5'>
                                 <p className='font-semibold text-lg'>{name}</p>

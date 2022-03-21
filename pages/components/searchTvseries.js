@@ -49,10 +49,23 @@ const SearchMovie = () =>{
 
     const fetchMovie = async(url) =>{
         setIsLoading(true)
-        const response = await fetch(url, options)
-        const data = await response.json()
-        setIsLoading(false)
-        setSearchData(data.results)
+        try {
+            const response = await fetch(url, options)
+            if (!response.ok) {
+                throw new Error('Network response was not OK');
+            }
+            const data = await response.json()
+            setIsLoading(false)
+            if(data.results){
+                setSearchData(data.results)
+                console.log(data.results)
+            }else{
+                setSearchData(data)
+            }
+        }catch(err){
+            setIsLoading(false)
+            toast.error(err)
+        }
     }
 
     useEffect(async () =>{
@@ -124,14 +137,15 @@ const SearchMovie = () =>{
                    Back
                </button>
                 <div className='flex flex-row flex-wrap mx-2 md:mx-5 mt-5'>
-                    {searchdata.map((data) =>{
+                    {searchdata > 1 ? searchdata.map((data) =>{
                     const {id, name, poster_path, overview} = data;
+                    const newImage = 'https://res.cloudinary.com/pajimo/image/upload/v1647610106/Untitled_1.png'
                     return(
                         <div key={id} className="basis-1/2 md:basis-2/6 md:mb-10 mb-5" onClick={() =>showParticularSeries(id)}>
                             <ImageList sx={{  height: 450 }} className="flex justify-center">
                                 <ImageListItem className='w-48 md:w-64' style={{cursor: 'pointer'}}>
                                     <img
-                                        src={poster_path ? Img_Url+poster_path : "https://images.assetsdelivery.com/compings_v2/yehorlisnyi/yehorlisnyi2104/yehorlisnyi210400016.jpg"}
+                                        src={poster_path ? Img_Url+poster_path : newImage}
                                         alt={name}
                                         loading="lazy"
                                 />
@@ -145,7 +159,22 @@ const SearchMovie = () =>{
                         </div>
                     )
                     
-                })}
+                }): <div key={searchdata.id} className="basis-1/2 md:basis-2/6 md:mb-10 mb-5" onClick={() =>showParticularSeries(id)}>
+                        <ImageList sx={{  height: 450 }} className="flex justify-center">
+                            <ImageListItem className='w-48 md:w-64' style={{cursor: 'pointer'}}>
+                                <img
+                                    src={searchdata.poster_path ? Img_Url+searchdata.poster_path : 'https://res.cloudinary.com/pajimo/image/upload/v1647610106/Untitled_1.png'}
+                                    alt={searchdata.name}
+                                    loading="lazy"
+                            />
+                            <ImageListItemBar
+                                title={searchdata.name}
+                                subtitle={<span> {searchdata.overview}</span>}
+                                position="below"
+                            />
+                            </ImageListItem>
+                        </ImageList>
+                    </div>}
                 </div>
                 <SelectedTvseries closeParticularSeries={closeParticularSeries} showSelected={showSelected} selectedSeriesID={selectedSeriesID} />
             </div>

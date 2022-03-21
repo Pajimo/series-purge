@@ -59,7 +59,7 @@ const RemoveShow =({id, name}) =>{
             } else {
             // User is signed out
             // ...
-            toast.error("Please Log In to access your list")
+            toast.error("Log in to remove from list")
             }
         });
 }

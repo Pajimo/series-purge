@@ -23,6 +23,7 @@ const Header = () =>{
 
 
     const handleSubmit = async (e) =>{
+        setIsLoading(true)
         e.preventDefault()
         if(userPageValue){
             //await fetchMovie(searchUrl+`&query=`+userPageValue)
@@ -61,6 +62,7 @@ const Header = () =>{
 
     const goToProfile = () =>{
         if(auth.currentUser){
+            setIsLoading(true)
             router.push('./profile')
         }else{
             toast.error('LogIn to access your profile page')
@@ -119,13 +121,10 @@ const Header = () =>{
                     </div>
                     <div className="flex flex-row justify-evenly pb-5 text-xl font-semibold">
                             <button onClick={() => {
-                                setIsLoading(true)
                                 router.push('./userpage')}} className=''>Shows</button>
                             <button onClick={() => {
-                                setIsLoading(true)
                                 router.push('./userPersonalList')}}>My List</button>
                             <button onClick={() => {
-                                setIsLoading(true)
                                 router.push("./searchTvseries")}}>Discover</button>
                     </div>
                 </div>

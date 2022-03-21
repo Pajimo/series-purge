@@ -76,7 +76,7 @@ const UserList = () =>{
         )
     }
 
-    if(myListTvseries === 0){
+    if(!myListTvseries){
         return(
             <>
                 <Header />
@@ -117,13 +117,13 @@ const UserList = () =>{
                 <div className='m-2 mt-5 grid md:grid-cols-3'>
                 {myListTvseries.map((series) =>{
                     const {id, name, poster_path, next_episode_to_air, status, nextEpisode} = series
-
+                    const newImage = 'https://res.cloudinary.com/pajimo/image/upload/v1647610106/Untitled_1.png'
                     const airdate = nextEpisode ? [nextEpisode.air_date] : "";
                     return(
                         <div key={id} className='' onClick={()=> showParticularSeries(id)}>
                             <div className='flex flex-row items-center mb-5 '>
                                 <div className='w-20 mr-2 md:w-40'>
-                                    <img src={Img_Url+poster_path} alt={name}/>
+                                    <img src={poster_path ? Img_Url+poster_path : newImage} alt={name}/>
                                 </div>
                                 <div>
                                     <h1 className='font-bold'>{name}</h1>

@@ -66,11 +66,16 @@ const UserPage = () =>{
 
 
     useEffect(async() =>{
-        setIsLoading(false)
-        const response = await fetch(baseUrl, options)
-        const data = await response.json()
-        setUserPageData(data.results)
-
+        try{
+            setIsLoading(true)
+            const response = await fetch(baseUrl, options)
+            const data = await response.json()
+            setUserPageData(data.results)
+            setIsLoading(false)
+        }catch(err){
+            setIsLoading(false)
+            toast.error(err)
+        }
     }, [])
 
 
@@ -101,15 +106,15 @@ const showParticularSeries = (id) =>{
                     <div className="w-full  mr-3 md:grid md:grid-cols-3"> 
                         {(userPagedata.map((show) =>{
                             const {id, name, poster_path, popularity, vote_average, overview} = show
-
+                            const newImage = 'https://res.cloudinary.com/pajimo/image/upload/v1647610106/Untitled_1.png'
                             return(
                                 <div key={id} onClick={()=>showParticularSeries(id)} className="m-3 items-center flex">
                                     <div>
-                                        <img className="w-20 md:w-52" src={Img_Url+poster_path} alt={name}/>
+                                        <img className="w-20 md:w-52 basis-1/2" src={poster_path ? Img_Url+poster_path : newImage} alt={name}/>
                                     </div>
-                                    <div className="ml-3 w-9/12">
+                                    <div className="ml-3 w-9/12 basis-1/2">
                                         <p className="font-semibold text-xl">{name}</p>
-                                        <p className="truncate ">{overview}</p>
+                                        <p className="truncate ">{overview ? overview : "infor missing"}</p>
                                         <p className="font-light text-sm">Ratings: {vote_average}</p>
                                     </div>
                                 </div>

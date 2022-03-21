@@ -46,13 +46,18 @@ const SelectedTvseries = ({closeParticularSeries, showSelected, selectedSeriesID
     }
 
     const getSelectedTvseries = async(url) =>{
-    const response = await fetch(url, options)
-    const data = await response.json()
-    setSelectedTvseriesInfo(data)
-    setGenres(data.genres)
-    setNextEpisode(data.next_episode_to_air)
-    setSeasons(data.seasons)
-    setIsLoading(false)
+        try{
+            const response = await fetch(url, options)
+            const data = await response.json()
+            setSelectedTvseriesInfo(data)
+            setGenres(data.genres)
+            setNextEpisode(data.next_episode_to_air)
+            setSeasons(data.seasons)
+            setIsLoading(false)
+        }catch(err){
+            setIsLoading(false)
+            toast.error(err)
+        }    
     }
 
     useEffect(() =>{
