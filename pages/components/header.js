@@ -14,9 +14,10 @@ import { ToastContainer, toast } from 'react-toastify';
 
 
 
-const Header = () =>{
+const Header = ({disable, discoverDisable, listDisable}) =>{
     const [userPageValue, setUserPageValue] = useState('')
     const [isLoading, setIsLoading] = useState('')
+
     const auth = getAuth()
     const router = useRouter()
     const currentUser = auth.currentUser
@@ -120,12 +121,26 @@ const Header = () =>{
                         </div>
                     </div>
                     <div className="flex flex-row justify-evenly pb-5 text-xl font-semibold">
-                            <button onClick={() => {
-                                router.push('./userpage')}} className=''>Shows</button>
-                            <button onClick={() => {
-                                router.push('./userPersonalList')}}>My List</button>
-                            <button onClick={() => {
-                                router.push("./searchTvseries")}}>Discover</button>
+                            <button className='' disabled = {disable} onClick={() => {
+                                if(!disable){
+                                    setIsLoading(true)
+                                    router.push('./userpage')
+                                }
+                                
+                                }}>Shows</button>
+                            <button disabled={listDisable} onClick={() => {
+                                if(!listDisable){
+                                    setIsLoading(true)
+                                    router.push('./userPersonalList')
+                                }
+                                
+                                }}>My List</button>
+                            <button disabled = {discoverDisable} onClick={() => {
+                                if(!discoverDisable){
+                                    setIsLoading(true)
+                                    router.push("./searchTvseries")
+                                }
+                                }}>Discover</button>
                     </div>
                 </div>
             </div>

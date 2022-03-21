@@ -18,6 +18,7 @@ const UserList = () =>{
     const [currentUser, setCurrentUser] = useState('')
     const [isLoading, setIsLoading] = useState(false)
     const [myListId, setMyListId] = useState([])
+    const [listDisable, setListDisable] = useState(false)
 
     const Img_Url = "https://image.tmdb.org/t/p/w200"
     const auth = getAuth()
@@ -51,6 +52,7 @@ const UserList = () =>{
               // ...
             }
         });
+        setListDisable(true)
     }, [])
 
     if(isLoading){
@@ -62,7 +64,7 @@ const UserList = () =>{
     if(!auth.currentUser){
         return(
             <>
-                <Header />
+                <Header listDisable={listDisable}/>
                 <div className='font-semibold'>
                     <div className={styles.container}>
                         <div className={styles.main}><h1 className='mb-10 text-3xl'>Sign in to view list</h1>
@@ -79,7 +81,7 @@ const UserList = () =>{
     if(!myListTvseries){
         return(
             <>
-                <Header />
+                <Header listDisable={listDisable}/>
                 <div className='font-semibold'>
                     <div className={styles.container}>
                         <div className={styles.main}><h1 className='mb-10 text-3xl'>List is empty</h1>
@@ -113,7 +115,7 @@ const UserList = () =>{
     return(
         <>
             <div>
-                <Header />
+                <Header listDisable={listDisable}/>
                 <div className='m-2 mt-5 grid md:grid-cols-3'>
                 {myListTvseries.map((series) =>{
                     const {id, name, poster_path, next_episode_to_air, status, nextEpisode} = series

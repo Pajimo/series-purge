@@ -23,9 +23,11 @@ const Loading = ({setIsLoading}) =>{
                         top: '50%',
                         left: '50%',
                         transform: 'translate(-50%, -50%)',
-                        p: 4,
-                    }} className="bg-white">
-                        <CircularProgress className="logo text-3xl" />
+                    }} className="">
+                        <div >
+                        <CircularProgress className="mx-20 "/>
+                        <div className="logo"></div>
+                        </div>
                     </Box>
                 </Modal>
             </div>

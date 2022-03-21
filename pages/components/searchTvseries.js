@@ -21,6 +21,7 @@ const SearchMovie = () =>{
     const [selectedSeriesID, setSelectedSeriesID] = useState([])
     const [showSelected, setShowSelected] = useState(false)
     const [genreId, setGenreId] = useState()
+    const [discoverDisable, setDiscoverDisable] = useState(false)
     const auth = getAuth();
     
     const router = useRouter()
@@ -72,6 +73,7 @@ const SearchMovie = () =>{
         setIsLoading(true)
         await fetchMovie(searchUrl+`&query=`+userPageValue)
         setIsLoading(false)
+        setDiscoverDisable(true)
     }, [userPageValue])
 
 
@@ -98,7 +100,7 @@ const SearchMovie = () =>{
             <>
                 <ToastContainer/>
                 <div>
-                    <Header />
+                    <Header discoverDisable={discoverDisable}/>
                     <div className='text-white'>
                     <div className="flex justify-center">
                         <div className="logo"></div>
@@ -110,7 +112,7 @@ const SearchMovie = () =>{
                             <div>
                                 <button className='bg-zinc-500 font-semibold text-lg border-2 m-5 w-40 md:w-52 py-3 rounded-2xl text-white' onClick={() => fetchMovie(seriesOnAir)}>Currently airing</button>
                             </div>
-                            <div><button className='bg-zinc-500 w-40 md:w-52 font-semibold text-lg border-2 m-5 py-3 rounded-2xl text-white' onClick={() => fetchMovie(latestShow)}>Latest Shows</button></div>
+                            <div><button className='bg-zinc-500 w-40 md:w-52 font-semibold text-lg border-2 m-5 py-3 rounded-2xl text-white' onClick={() => fetchMovie(popular)}>Latest Shows</button></div>
                             <div><button className='bg-zinc-500 w-40 md:w-52 font-semibold text-lg border-2 m-5 py-3 rounded-2xl ' onClick={() => fetchMovie(topRated)}>Top Rated shows</button></div>
                             <div><button className='bg-zinc-500 w-40 md:w-52 font-semibold text-lg border-2 m-5 py-3 rounded-2xl ' onClick={() => fetchMovie(airingToday)}>Airing Today</button></div>
                             <div><button className='bg-zinc-500 w-40 md:w-52 font-semibold text-lg border-2 m-5 py-3 rounded-2xl ' onClick={() => fetchMovie(popular)}>Popular</button></div>
@@ -132,12 +134,12 @@ const SearchMovie = () =>{
         <ToastContainer/>
             <div>
                 
-               <Header />
+               <Header discoverDisable={discoverDisable}/>
                <button onClick={() =>goBack()} className='rounded-2xl bg-slate-500 text-white p-3 m-3'>
                    Back
                </button>
                 <div className='flex flex-row flex-wrap mx-2 md:mx-5 mt-5'>
-                    {searchdata > 1 ? searchdata.map((data) =>{
+                    {searchdata.map((data) =>{
                     const {id, name, poster_path, overview} = data;
                     const newImage = 'https://res.cloudinary.com/pajimo/image/upload/v1647610106/Untitled_1.png'
                     return(
@@ -159,22 +161,7 @@ const SearchMovie = () =>{
                         </div>
                     )
                     
-                }): <div key={searchdata.id} className="basis-1/2 md:basis-2/6 md:mb-10 mb-5" onClick={() =>showParticularSeries(id)}>
-                        <ImageList sx={{  height: 450 }} className="flex justify-center">
-                            <ImageListItem className='w-48 md:w-64' style={{cursor: 'pointer'}}>
-                                <img
-                                    src={searchdata.poster_path ? Img_Url+searchdata.poster_path : 'https://res.cloudinary.com/pajimo/image/upload/v1647610106/Untitled_1.png'}
-                                    alt={searchdata.name}
-                                    loading="lazy"
-                            />
-                            <ImageListItemBar
-                                title={searchdata.name}
-                                subtitle={<span> {searchdata.overview}</span>}
-                                position="below"
-                            />
-                            </ImageListItem>
-                        </ImageList>
-                    </div>}
+                })}
                 </div>
                 <SelectedTvseries closeParticularSeries={closeParticularSeries} showSelected={showSelected} selectedSeriesID={selectedSeriesID} />
             </div>
