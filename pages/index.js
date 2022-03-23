@@ -1,18 +1,25 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
-import {firebaseConfig, database} from '../firebaseConfig'
+import {firebaseConfig, database, messageing} from '../firebaseConfig'
 import { collection, addDoc } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
 import { Button } from '@mui/material';
 import { useRouter } from 'next/router';
 import Loading from './components/loadingScreen'
+import OneSignal from 'react-onesignal';
 
 export default function Home() {
+
+  useEffect(() => {
+    OneSignal.init({
+      appId: "376bd7e4-3b43-495c-97ac-641620ad9a22"
+    });
+  }, []);
+
+
   const router = useRouter()
   const [isLoading, setIsLoading] = useState(false)
-
-
 
     const handleClick = () =>{
       setIsLoading(true)

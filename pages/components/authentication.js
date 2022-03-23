@@ -19,6 +19,7 @@ import {MdVisibility} from "react-icons/md";
 import {MdVisibilityOff} from "react-icons/md";
 import InputAdornment from '@mui/material/InputAdornment';
 import { async } from "@firebase/util";
+import { FcGoogle } from "react-icons/fc";
 
 const LoginSignup = () =>{
 
@@ -214,14 +215,14 @@ const LoginSignup = () =>{
                         width: 400,
                         maxWidth: '100%',
                         }}/><br></br>
-                    <button className='w-full rounded-3xl mt-5 mb-5 bg-slate-500 p-2 text-lg font-semibold' onClick = {(e) =>{
+                    <button className='w-full rounded-3xl mt-5 mb-5 bg-slate-500 p-2 text-lg font-semibold text-white' onClick = {(e) =>{
                     e.preventDefault();
                     signUp()
                 }} variant="contained" size="normal">Sign Up</button>
-                <button className='w-full rounded-3xl mb-5 bg-slate-500 p-2 text-lg font-semibold' onClick = {(e) =>{
+                <button className='w-full rounded-3xl mb-5 bg-slate-500 p-2 text-lg font-semibold flex items-center justify-center text-white' onClick = {(e) =>{
                     e.preventDefault();
                     signInWithGoogle()
-                }} variant="contained" size="normal">Continue with Google</button>
+                }} variant="contained" size="normal"><FcGoogle className='mr-3'/> Continue with Google</button>
                 </form>
                 <div>
                 </div>
@@ -271,14 +272,14 @@ const LoginSignup = () =>{
                         width: 400,
                         maxWidth: '100%',
                         }}/><br></br>
-                    <button className='w-full rounded-3xl mb-5 mt-5 bg-slate-500 p-2 text-lg font-semibold' onClick = {(e) =>{
+                    <button className='w-full text-white rounded-3xl mb-5 mt-5 bg-slate-500 p-2 text-lg font-semibold' onClick = {(e) =>{
                     e.preventDefault();
                     signIn()
                 }} variant="contained" size="normal">Login</button><br></br>
-                <button className='w-full rounded-3xl mb-10 bg-slate-500 p-2 text-lg font-semibold' onClick = {(e) =>{
+                <button className='w-full text-white rounded-3xl mb-10 bg-slate-500 p-2 text-lg font-semibold flex items-center justify-center' onClick = {(e) =>{
                     e.preventDefault();
                     signInWithGoogle()
-                }} variant="contained" size="normal">Continue with Google</button>
+                }} variant="contained" size="normal">  <FcGoogle className="mr-3"/> Continue with Google</button>
                 </form>
                 <div>
                 </div>
