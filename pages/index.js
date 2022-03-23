@@ -18,7 +18,7 @@ export default function Home() {
   }, []);
 
 
-  
+
   const router = useRouter()
   const [isLoading, setIsLoading] = useState(false)
 
@@ -43,6 +43,7 @@ export default function Home() {
         <meta name="description" content="Series Purge built for tvseries info" />
         <link rel="icon" href="" />
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
+        <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
       </Head>
 
       <main className={styles.main}>
