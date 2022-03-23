@@ -13,7 +13,7 @@ export default function Home() {
 
   useEffect(() => {
     OneSignal.init({
-      appId: "376bd7e4-3b43-495c-97ac-641620ad9a22"
+      appId: process.env.NEXT_PUBLIC_ONESIGNAL_KEY_ID
     });
   }, []);
 
