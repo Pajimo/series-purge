@@ -138,27 +138,20 @@ const SearchMovie = () =>{
                <button onClick={() =>goBack()} className='rounded-2xl bg-slate-500 text-white p-3 m-3'>
                    Back
                </button>
-                <div className='flex flex-row flex-wrap mx-2 md:mx-5 mt-5'>
+                <div className='w-full  mr-3 md:grid md:grid-cols-3'>
                     {searchdata.map((data) =>{
                     const {id, name, poster_path, overview} = data;
                     const newImage = 'https://res.cloudinary.com/pajimo/image/upload/v1647610106/Untitled_1.png'
                     return(
-                        <div key={id} className="basis-1/2 md:basis-2/6 md:mb-10 mb-5" onClick={() =>showParticularSeries(id)}>
-                            <ImageList sx={{  height: 450 }} className="flex justify-center">
-                                <ImageListItem className='w-48 md:w-64' style={{cursor: 'pointer'}}>
-                                    <img
-                                        src={poster_path ? Img_Url+poster_path : newImage}
-                                        alt={name}
-                                        loading="lazy"
-                                />
-                                <ImageListItemBar
-                                    title={name}
-                                    subtitle={<span> {overview}</span>}
-                                    position="below"
-                                />
-                                </ImageListItem>
-                            </ImageList>
+                        <div key={id} onClick={()=>showParticularSeries(id)} className="p-3 items-center flex md:border-0 border-b-2 border-t-2">
+                        <div className="w-3/12 basis-3/12">
+                            <img className="w-full " src={poster_path ? Img_Url+poster_path : newImage} alt={name}/>
                         </div>
+                        <div className="pl-3 w-9/12 basis-9/12">
+                            <p className="font-semibold text-xl">{name}</p>
+                            <div className="w-full"><p className="truncate">{overview ? overview : ""}</p></div>
+                        </div>
+                    </div>
                     )
                     
                 })}

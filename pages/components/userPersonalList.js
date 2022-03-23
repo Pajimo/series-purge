@@ -78,7 +78,7 @@ const UserList = () =>{
         )
     }
 
-    if(!myListTvseries){
+    if(myListTvseries.length === 0){
         return(
             <>
                 <Header listDisable={listDisable}/>

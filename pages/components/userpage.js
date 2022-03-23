@@ -118,7 +118,7 @@ const showParticularSeries = (id) =>{
                                     <div className="pl-3 w-9/12 basis-9/12">
                                         <p className="font-semibold text-xl">{name}</p>
                                         <div className="w-full"><p className="truncate">{overview ? overview : ""}</p></div>
-                                        <p className="font-light text-sm">Ratings: {vote_average}</p>
+                                        <p className="font-light text-sm text-right">{vote_average}</p>
                                     </div>
                                 </div>
                             )

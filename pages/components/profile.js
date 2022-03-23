@@ -24,6 +24,7 @@ const Profile = () =>{
     const [isLoading, setIsLoading] = useState(false)
     const [display_name, setDisplay_name] = useState('')
     const [password, setPassword] = useState('')
+    const[myListTvseries, setMyListTvseries] = useState([])
 
     useEffect(() =>{
         onAuthStateChanged (auth, async(user) => {
@@ -38,9 +39,16 @@ const Profile = () =>{
                 // setMyListTvseries(querySnapshot.docs.map((doc) =>{
                 //         return { ...doc.data()}
                 // }))
-                    setUserProfile(docs.docs.map((doc) =>{
+                setUserProfile(docs.docs.map((doc) =>{
+                    return { ...doc.data()}
+                }))
+                const querySnapshot = await getDocs(collection(database, uid));
+                // querySnapshot.forEach((doc) => {
+                //   //console.log(`${doc.id} => ${doc.data()}`);
+                //   console.log(doc.data())
+                setMyListTvseries(querySnapshot.docs.map((doc) =>{
                         return { ...doc.data()}
-                    })) 
+                }))
             } else {
               // User is signed out
               // ...
@@ -139,8 +147,12 @@ const Profile = () =>{
     return(
         <>
             <Header />
-            <div>Your Profile</div>
-            <div className="grid">
+            <div className='flex justify-center'>
+                <h1 className="logo"></h1>
+            </div>
+            <div className="pt-5 font-bold text-center text-3xl">Your Profile</div>
+            <h1 className="pt-2 font-bold text-center text-2xl">Welcome: {display_name}</h1>
+            <div className="grid pb-20">
                 {userProfile.map((users) =>{
                     const {name, email, uid, firstName} = users
                     return(
@@ -150,17 +162,19 @@ const Profile = () =>{
                                     <BsPersonFill size={100} className=" rounded-full bg-slate-400 text-red-400"/>
                                 </div>
                                 <div className="ml-5">
-                                    <h1 className="text-center text-2xl">Welcome: {display_name}</h1>
-                                    <h1 className="text-center text-lg">Full name: {name}</h1>
-                                    <h1 className="text-center">Email: {email}</h1>
+                                    <h1 className="font-semibold text-lg">Full name: {name}</h1>
+                                    <h1 className="font-semibold">Email: {email}</h1>
                                 </div>
-                            </div>
-                            <div className="pt-5 flex justify-center">
-                                <button className="p-3 bg-red-500 text-white font-bold" onClick={() => setDeleteClicked(true)}>Delete Account</button>
                             </div>
                         </div>
                     )
                 })}
+                <div className='p-3 text-xl font-semibold mt-10'>
+                    <p>Number of shows in list: {myListTvseries.length}</p>
+                </div>
+                <div className="pt-20 flex justify-center">
+                    <button className="p-3 bg-red-500 text-white font-bold" onClick={() => setDeleteClicked(true)}>Delete Account</button>
+                </div>
 
             </div>
         </>
