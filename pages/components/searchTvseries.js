@@ -1,17 +1,14 @@
-import ImageList from '@mui/material/ImageList';
 import { useEffect, useState } from 'react';
-import ImageListItem from '@mui/material/ImageListItem';
-import ImageListItemBar from '@mui/material/ImageListItemBar';
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import {firebaseConfig, database} from '../../firebaseConfig'
 import { getAuth, onAuthStateChanged} from "firebase/auth";
 import { collection, addDoc, doc, setDoc } from 'firebase/firestore';
 import { useRouter } from "next/router";
-import { Button } from "@mui/material";
 import Loading from './loadingScreen';
 import SelectedTvseries from './selectedTvseries';
 import Header from './header';
+import Head from 'next/head'
 
 
 const SearchMovie = () =>{
@@ -98,6 +95,15 @@ const SearchMovie = () =>{
     if(searchdata.length === 0){
         return(
             <>
+            <Head>
+        <title>Series Purge | Tvshow / Tvseries Search</title>
+        <meta name="description" content="Series Purge built for tvseries info" />
+        <link rel="icon" href="" />
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
+        <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8588308876797973"
+          crossorigin="anonymous"></script>
+      </Head>
                 <ToastContainer/>
                 <div>
                     <Header discoverDisable={discoverDisable}/>
@@ -131,6 +137,15 @@ const SearchMovie = () =>{
 
     return (
         <>
+        <Head>
+        <title>Series Purge</title>
+        <meta name="description" content="Series Purge built for tvseries info" />
+        <link rel="icon" href="" />
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
+        <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8588308876797973"
+          crossorigin="anonymous"></script>
+      </Head>
         <ToastContainer/>
             <div>
                 

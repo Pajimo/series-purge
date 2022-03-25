@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import Head from 'next/head'
 import {firebaseConfig, database} from '../../firebaseConfig'
 import { collection, addDoc, getDocs } from 'firebase/firestore';
 import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
@@ -9,6 +10,7 @@ import Loading from './loadingScreen';
 import { Button } from '@mui/material';
 import { useRouter } from 'next/router';
 import moment from 'moment';
+import OneSignal from 'react-onesignal';
 
 
 const UserList = () =>{
@@ -44,7 +46,9 @@ const UserList = () =>{
                 setMyListId(querySnapshot.docs.map((id) =>{
                     return id.id
                 }))
-    
+                let externalUserId = uid; // You will supply the external user id to the OneSignal SDK
+
+                    OneSignal.setExternalUserId(externalUserId);
                 //});
               // ...
             } else {
@@ -64,6 +68,15 @@ const UserList = () =>{
     if(!auth.currentUser){
         return(
             <>
+            <Head>
+        <title>Series Purge | User List</title>
+        <meta name="description" content="Series Purge built for tvseries info" />
+        <link rel="icon" href="" />
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
+        <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8588308876797973"
+          crossorigin="anonymous"></script>
+      </Head>
                 <Header listDisable={listDisable}/>
                 <div className='font-semibold'>
                     <div className={styles.container}>
@@ -81,6 +94,15 @@ const UserList = () =>{
     if(myListTvseries.length === 0){
         return(
             <>
+            <Head>
+        <title>Series Purge | User List</title>
+        <meta name="description" content="Series Purge built for tvseries info" />
+        <link rel="icon" href="" />
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
+        <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8588308876797973"
+          crossorigin="anonymous"></script>
+      </Head>
                 <Header listDisable={listDisable}/>
                 <div className='font-semibold'>
                     <div className={styles.container}>
@@ -114,6 +136,15 @@ const UserList = () =>{
 
     return(
         <>
+        <Head>
+        <title>Series Purge | User List</title>
+        <meta name="description" content="Series Purge built for tvseries info" />
+        <link rel="icon" href="" />
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
+        <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8588308876797973"
+          crossorigin="anonymous"></script>
+      </Head>
             <div>
                 <Header listDisable={listDisable}/>
                 <div className='m-2 mt-5 grid md:grid-cols-3'>
@@ -129,8 +160,20 @@ const UserList = () =>{
                                 </div>
                                 <div>
                                     <h1 className='font-bold'>{name}</h1>
-                                    {next_episode_to_air ? `Next Episode: ${(moment(airdate[0]).fromNow())}` : "Next date not available"}<br></br>
-                                    <p>This is a {status}</p>
+                                    {next_episode_to_air ? <div> 
+                                        
+                                        <p>Next Episode on {((moment().add((moment(airdate[0]).fromNow())[2] + (moment(airdate[0]).fromNow())[3] + (moment(airdate[0]).fromNow())[4], 'days').calendar(null, {
+                                    sameDay: '[Today]',
+                                    nextDay: '[Tomorrow]',
+                                    nextWeek: 'dddd',
+                                    lastDay: '[Yesterday]',
+                                    lastWeek: '[Last] dddd',
+                                    sameElse: 'DD/MM/YYYY'
+                                })))}</p><p> {(moment(airdate[0]).fromNow())} </p>
+                                <p className='font-bold'>S{nextEpisode.season_number} | E{nextEpisode.episode_number}</p>
+                                <p>{nextEpisode.name}</p>
+                                </div> : "Next date not available"}
+                                    <p>{status}</p>
                                 </div>
                             </div>
                         </div>

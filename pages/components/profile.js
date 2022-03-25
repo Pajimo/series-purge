@@ -7,10 +7,10 @@ import { BsPersonFill } from "react-icons/bs";
 import styles from '../../styles/Home.module.css';
 import Header from './header';
 import { useRouter } from 'next/router';
-import { setUserId } from "firebase/analytics";
 import { toast, ToastContainer } from "react-toastify";
 import CircularProgress from '@mui/material/CircularProgress';
 import 'react-toastify/dist/ReactToastify.css';
+import Head from 'next/head'
 
 const Profile = () =>{
 
@@ -146,6 +146,15 @@ const Profile = () =>{
 
     return(
         <>
+        <Head>
+        <title>Series Purge | User Profile</title>
+        <meta name="description" content="Series Purge built for tvseries info" />
+        <link rel="icon" href="" />
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
+        <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8588308876797973"
+          crossorigin="anonymous"></script>
+      </Head>
             <Header />
             <div className='flex justify-center'>
                 <h1 className="logo"></h1>

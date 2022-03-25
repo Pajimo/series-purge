@@ -8,7 +8,8 @@ import Loading from "./loadingScreen";
 import SelectedTvseries from './selectedTvseries';
 import Header from "./header";
 import moment from 'moment';
-
+import Head from 'next/head'
+import { BiDotsVertical } from "react-icons/bi";
 
 
 
@@ -17,18 +18,8 @@ const UserPage = () =>{
     const [isLoading, setIsLoading] = useState(false)
     const [disable, setShowDisable] = useState(false)
 
-
-    const days = [ 'Sunday','Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
-
     const auth = getAuth();
-    const dayOfTheWeek = moment().day()
-    const dateOfTheMonth = moment().date()
-    console.log(days[dayOfTheWeek])
-    console.log(dateOfTheMonth)
-    console.log(new Date())
-    var now = moment();
-    console.log(now.format())
-    console.log(moment([2022, 2, 27]).fromNow())
+
     const router = useRouter()
 
     const Img_Url = "https://image.tmdb.org/t/p/w200"
@@ -46,10 +37,6 @@ const UserPage = () =>{
           // ...
         }
       });
-
-      const redirect = () =>{
-          router.push('./authentication')
-      }
 
     var options = {
         method: 'GET',
@@ -102,6 +89,16 @@ const showParticularSeries = (id) =>{
 
     return (
         <>
+        <Head>
+        <title>Series Purge | Main Page</title>
+        <meta name="description" content="Series Purge built for tvseries info" />
+        <link rel="icon" href="" />
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
+        <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8588308876797973"
+          crossorigin="anonymous"></script>
+      </Head>
+      <ToastContainer />
             <div>
                 <Header disable={disable} setShowDisable={setShowDisable}/>
                 <div>
@@ -111,14 +108,15 @@ const showParticularSeries = (id) =>{
                             const {id, name, poster_path, popularity, vote_average, overview} = show
                             const newImage = 'https://res.cloudinary.com/pajimo/image/upload/v1647610106/Untitled_1.png'
                             return(
-                                <div key={id} onClick={()=>showParticularSeries(id)} className="p-3 items-center flex md:border-0 border-b-2 border-t-2">
-                                    <div className="w-3/12 basis-3/12">
-                                        <img className="w-full " src={poster_path ? Img_Url+poster_path : newImage} alt={name}/>
-                                    </div>
-                                    <div className="pl-3 w-9/12 basis-9/12">
-                                        <p className="font-semibold text-xl">{name}</p>
-                                        <div className="w-full"><p className="truncate">{overview ? overview : ""}</p></div>
-                                        <p className="font-light text-sm text-right">{vote_average}</p>
+                                <div key={id} className="relative p-3 items-center flex justify-between md:border-0 border-b-2 border-t-2">
+                                    <div className="flex" onClick={()=>showParticularSeries(id)}>
+                                        <div className="w-3/12 basis-3/12">
+                                            <img className="w-full " src={poster_path ? Img_Url+poster_path : newImage} alt={name}/>
+                                        </div>
+                                        <div className="pl-3 w-9/12 basis-9/12">
+                                            <p className="font-semibold text-xl">{name}</p>
+                                            <p className="font-light text-sm">{vote_average}</p>
+                                        </div>
                                     </div>
                                 </div>
                             )

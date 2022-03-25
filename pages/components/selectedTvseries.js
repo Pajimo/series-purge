@@ -6,6 +6,7 @@ import { getAuth, onAuthStateChanged} from "firebase/auth";
 import SeasonInfo from './seasonInfo'
 import Popover from '@mui/material/Popover';
 import Typography from '@mui/material/Typography';
+import { useRouter } from "next/router";
 import { RWebShare } from "react-web-share";
 import {
     LinkedinIcon,
@@ -31,9 +32,34 @@ import Select from '@mui/material/Select';
 import Loading from './loadingScreen';
 
 
+// export async function getServerSideProps() {
+//     var options = {
+//         method: 'GET',
+//         headers:{
+//         'Authorization': '4e73e1dfa07d9055c678d3e4ad6ac341',
+//         'Content-Type': 'application/json'
+//         }
+//     }
+
+//     const finalUrl = url+ selectedSeriesID+ '/videos' + apiKey
+
+//         const apiKey = "?api_key=4e73e1dfa07d9055c678d3e4ad6ac341"
+//         const url = "https://api.themoviedb.org/3/tv/"
+//         const response = await fetch(finalUrl, options);
+//         const video = await response.json()
+//         //setSelectedVideo(video.results)
+//     return {
+//       props: {
+//         video
+//       }
+//     }
+//   }
+
+
 const SelectedTvseries = ({closeParticularSeries, showSelected, selectedSeriesID}) =>{
 
     const auth = getAuth()
+    const router = useRouter()
 
     const [isLoading, setIsLoading] = useState(true)
     const baseUrl = `https://api.themoviedb.org/3`
@@ -46,6 +72,20 @@ const SelectedTvseries = ({closeParticularSeries, showSelected, selectedSeriesID
     const [eachSeason, setEachSeason] = useState('')
     const [eachSeasonId, setEachSeasonId] = useState()
     const [season_number, setSeason_number] = useState()
+    const [selectedVideo, setSelectedVideo] = useState([])
+    const [videoLoading, setVideoLoading] = useState(true)
+    const[smallLoading, setSmallLoading] = useState(true)
+    const[similarLoading, setSimilarLoading] = useState(true)
+    const [similarShow, setSimilarShow] = useState([])
+
+    // for youtube
+    const opts = {
+        height: "390",
+        width: "640",
+        playerVars: {
+          autoplay: 1,
+        },
+      };
 
 
     // popper code for modal
@@ -59,12 +99,13 @@ const SelectedTvseries = ({closeParticularSeries, showSelected, selectedSeriesID
     const open = Boolean(anchorEl);
     const popperid = open ? 'simple-popover' : undefined;
 
-    const[smallLoading, setSmallLoading] = useState(true)
 
     const apiKey = "?api_key=4e73e1dfa07d9055c678d3e4ad6ac341"
     const url = "https://api.themoviedb.org/3/tv/"
 
     const searchUrl = baseUrl+'/search/tv'+apiKey
+
+    const similarUrl  = url + selectedSeriesID + '/recommendations' + apiKey
 
     var options = {
         method: 'GET',
@@ -89,9 +130,46 @@ const SelectedTvseries = ({closeParticularSeries, showSelected, selectedSeriesID
         }    
     }
 
+    const getSelectedVideo = async(url) =>{
+        setVideoLoading(true)
+        try{
+            const response = await fetch(url, options);
+            const video = await response.json()
+            const data =  await video.results
+            setSelectedVideo(data)
+            setVideoLoading(false)
+        }catch(err){
+            setVideoLoading(false)
+            toast.error('Error fetching trailer')
+        }
+    }
+
+    const getSimilarShow = async(url) =>{
+        setSimilarLoading(true)
+        try{
+            const response = await fetch(url, options);
+            const similar = await response.json()
+            const data =  await similar.results
+            setSimilarShow(data)
+            setSimilarLoading(false)
+        }catch(err){
+            setSimilarLoading(false)
+            toast.error('Error fetching similar show')
+        }
+    }
+
+    const checkSimilarShow = (name) =>{
+        router.push({
+            pathname: './searchTvseries',
+            query: {userPageValue: name, }
+        })
+    }
+
     useEffect(() =>{
         if(showSelected === true){
             getSelectedTvseries(url+selectedSeriesID+apiKey)
+            getSelectedVideo( url+ selectedSeriesID+ '/videos' + apiKey)
+            getSimilarShow(similarUrl)
         }
     }, [showSelected])
 
@@ -109,11 +187,13 @@ const SelectedTvseries = ({closeParticularSeries, showSelected, selectedSeriesID
 
 
     const Img_Url = "https://image.tmdb.org/t/p/w300"
-    const {id, name, overview, poster_path, number_of_seasons, next_episode_to_air, status} = selectedTvseriesInfo
+    const {id, name, overview, poster_path, number_of_seasons, next_episode_to_air, status, networks} = selectedTvseriesInfo
+    
 
     var result = name.replace(/\s+/g, '-')
 
             const airdate = nextEpisode ? [nextEpisode.air_date] : "";
+            const newImage = 'https://res.cloudinary.com/pajimo/image/upload/v1647610106/Untitled_1.png'
     return(
         <>
             <div className='modal w-screen'>
@@ -123,17 +203,31 @@ const SelectedTvseries = ({closeParticularSeries, showSelected, selectedSeriesID
                         <button onClick={() => closeParticularSeries()} className='button font-extrabold text-xl'>X</button>
                     </div>
                     <div className='modal-body bg-black text-white'>
-                        <div className="flex items-center">
-                            <div className="flex justify-center md:w-64 w-40 mr-10">
-                                <img src={Img_Url+poster_path} alt={name}/>
+                    {!videoLoading ? ((selectedVideo.length > 0) ? 
+                    (
+                        <iframe className=" w-full h-96"  src={`https://www.youtube.com/embed/${selectedVideo[selectedVideo.length-1].key}`} 
+                                title="YouTube video player" frameborder="0" 
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                allowfullscreen></iframe>) : <img className="h-96 w-full object-contain" src={poster_path ? Img_Url+poster_path : newImage} alt={name}/>)  
+                                :  <img className="h-96 w-full object-contain" src={poster_path ? Img_Url+poster_path : newImage} alt={name}/>}
+                        <div className="">
+                            <div className="flex">
+                                <img className="w-20 bg-white p-2 mt-2" src={Img_Url + networks[0].logo_path} alt={networks[0].name} />
                             </div>
 
-                            <div>{nextEpisode ? <div>{status}
+                            <div className="w-full flex justify-center">{nextEpisode ? <div><span className='text-xl font-bold'>{status}</span>
                                 <p className="mb-3 font-bold">Info for Next Episode</p>
-                                <p className="mb-2">Title: {nextEpisode.name}</p>
-                                <p className="mb-2">Airing {(moment(airdate[0]).fromNow())}</p>
-                                <p className="mb-2">Episode: {nextEpisode.episode_number}</p>
-                                <p className="mb-2">Season: {nextEpisode.season_number} </p></div>: <div>{status}<br></br> No new episode release date yet</div>}  
+                                <p>Next Episode on {((moment().add((moment(airdate[0]).fromNow())[2] + (moment(airdate[0]).fromNow())[3] + (moment(airdate[0]).fromNow())[4], 'days').calendar(null, {
+                                    sameDay: '[Today]',
+                                    nextDay: '[Tomorrow]',
+                                    nextWeek: 'dddd',
+                                    lastDay: '[Yesterday]',
+                                    lastWeek: '[Last] dddd',
+                                    sameElse: 'DD/MM/YYYY'
+                                })))} - Showing {(moment(airdate[0]).fromNow())}</p>
+                                <p className="mb-2 mt-2">Title: {nextEpisode.name}</p>
+                                <p className="mb-2">S{nextEpisode.season_number} | E{nextEpisode.episode_number}</p>
+                            </div>: <div>Tv-Show: {status}<br></br> No new episode release date yet</div>}  
                                 
                             </div>
                         </div>
@@ -186,9 +280,9 @@ const SelectedTvseries = ({closeParticularSeries, showSelected, selectedSeriesID
                                 {genres.map((genre) =>{
                                     const {id, name} = genre;
                                     return(
-                                        <div key={id}>
-                                            <h1>- {name}</h1>
-                                        </div>
+                                        <span key={id}>
+                                             {`${name}, `}
+                                        </span>
                                     )
                                 })}
                                 </div>
@@ -204,7 +298,7 @@ const SelectedTvseries = ({closeParticularSeries, showSelected, selectedSeriesID
                         <div className="flex flex-row items-center justify-between pt-5">
                             <div>
                                 <Box sx={{ minWidth: 90 }} className='w-full'>
-                                    <FormControl  className='w-40'>
+                                    <FormControl  className='md:w-40 w-36'>
                                     <InputLabel key={id} id="demo-simple-select-label">Check Seasons</InputLabel>
                                     <Select
                                     labelId="demo-simple-select-label"
@@ -240,14 +334,30 @@ const SelectedTvseries = ({closeParticularSeries, showSelected, selectedSeriesID
                             {overview}
                         </div>
                     
-                        <div className='modal-footer mb-10'>
+                        <div className='modal-footer mb-20'>
                             <button onClick={closeParticularSeries} className='button'></button>
+                            <div>
+                                <p className="font-semibold text-xl">Similar Tv-Shows</p>
+                                {similarLoading ? "" : <div className="flex overflow-x-scroll w-full">
+                                    {similarShow.map((similar) => {
+                                        const {id, name, poster_path} = similar
+                                        return(
+                                            <div key={id} className='m-3 mb-20 w-96 border-2' onClick={() => checkSimilarShow(name)}>
+                                                <img className=" w-96 mr-40 object-contain" src={Img_Url + poster_path} alt={name} />
+                                                <p className='text-center font-bold'>{name}</p>
+                                            </div>
+                                        )
+                                    })}
+                                    </div>}
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </>
     )
+
+
 }
 
 export default SelectedTvseries
