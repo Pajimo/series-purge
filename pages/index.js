@@ -52,7 +52,6 @@ export default function Home() {
         <Button variant="contained" onClick={handleClick}>
             Browse TV-Series
         </Button>
-          
       </main>
     </div>
     </div>

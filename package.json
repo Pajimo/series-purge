@@ -13,6 +13,7 @@
     "@emotion/react": "^11.8.2",
     "@emotion/styled": "^11.8.1",
     "@mui/material": "^5.5.0",
+    "@sentry/nextjs": "^6.19.2",
     "firebase": "^9.6.8",
     "moment": "^2.29.1",
     "next": "12.1.0",
