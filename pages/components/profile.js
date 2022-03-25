@@ -153,7 +153,7 @@ const Profile = () =>{
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
         <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
         <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8588308876797973"
-          crossorigin="anonymous"></script>
+          crossOrigin="anonymous"></script>
       </Head>
             <Header />
             <div className='flex justify-center'>

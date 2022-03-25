@@ -206,9 +206,9 @@ const SelectedTvseries = ({closeParticularSeries, showSelected, selectedSeriesID
                     {!videoLoading ? ((selectedVideo.length > 0) ? 
                     (
                         <iframe className=" w-full h-96"  src={`https://www.youtube.com/embed/${selectedVideo[selectedVideo.length-1].key}`} 
-                                title="YouTube video player" frameborder="0" 
+                                title="YouTube video player" frameBorder="0" 
                                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                                allowfullscreen></iframe>) : <img className="h-96 w-full object-contain" src={poster_path ? Img_Url+poster_path : newImage} alt={name}/>)  
+                                allowFullScreen></iframe>) : <img className="h-96 w-full object-contain" src={poster_path ? Img_Url+poster_path : newImage} alt={name}/>)  
                                 :  <img className="h-96 w-full object-contain" src={poster_path ? Img_Url+poster_path : newImage} alt={name}/>}
                         <div className="">
                             <div className="flex">
