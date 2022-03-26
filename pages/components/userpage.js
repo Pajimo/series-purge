@@ -10,11 +10,35 @@ import Header from "./header";
 import moment from 'moment';
 import Head from 'next/head'
 import { BiDotsVertical } from "react-icons/bi";
+import OneSignal from 'react-onesignal';
+import Script from 'next/script'
+
+
+export const getServerSideProps = async() =>{
+    const baseUrl = "https://api.themoviedb.org/3/tv/popular?api_key=4e73e1dfa07d9055c678d3e4ad6ac341"
+    var options = {
+        method: 'GET',
+        headers:{
+        'Authorization': '4e73e1dfa07d9055c678d3e4ad6ac341',
+        'Content-Type': 'application/json'
+        }
+    }
+
+    const response = await fetch(baseUrl, options)
+    const data = await response.json()
+    const userPagedata = [data.results]
+
+    return{
+        props: {
+            userPagedata
+        }
+    }
+} 
 
 
 
-const UserPage = () =>{
-    const [userPagedata, setUserPageData] = useState([])
+const UserPage = ({userPagedata}) =>{
+    //const [userPagedata, setUserPageData] = useState([])
     const [isLoading, setIsLoading] = useState(false)
     const [disable, setShowDisable] = useState(false)
 
@@ -26,17 +50,6 @@ const UserPage = () =>{
     const baseUrl = "https://api.themoviedb.org/3/tv/popular?api_key=4e73e1dfa07d9055c678d3e4ad6ac341"
 
 
-    onAuthStateChanged(auth, (user) => {
-        if (user) {
-          // User is signed in, see docs for a list of available properties
-          // https://firebase.google.com/docs/reference/js/firebase.User
-          const uid = user.uid;
-          // ...
-        } else {
-          // User is signed out
-          // ...
-        }
-      });
 
     var options = {
         method: 'GET',
@@ -55,18 +68,27 @@ const UserPage = () =>{
 
 
     useEffect(async() =>{
-        try{
-            setIsLoading(true)
-            const response = await fetch(baseUrl, options)
-            const data = await response.json()
-            setUserPageData(data.results)
             setIsLoading(false)
             setShowDisable(true)
-        }catch(err){
-            setIsLoading(false)
-            toast.error(err)
-        }
     }, [])
+
+    useEffect(() => {
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+              // User is signed in, see docs for a list of available properties
+              // https://firebase.google.com/docs/reference/js/firebase.User
+              const uid = user.uid;
+
+              OneSignal.init({
+                appId: process.env.NEXT_PUBLIC_ONESIGNAL_KEY_ID
+              });
+              // ...
+            } else {
+              // User is signed out
+              // ...
+            }
+          });
+    }, []);
 
 
 // for selected shows
@@ -84,19 +106,19 @@ const showParticularSeries = (id) =>{
     if(isLoading){
         return(
         <Loading setIsLoading={setIsLoading}/>
-        )
+        ) 
     }
 
     return (
         <>
         <Head>
         <title>Series Purge | Main Page</title>
-        <meta name="description" content="Series Purge built for tvseries info" />
+        <meta name="description" content="Series Purge - Easy Information about your favourite tv-shows / tv-series, episodes, seasons, trailers, network providers" />
         <link rel="icon" href="" />
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
-        <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
-        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8588308876797973"
-          crossOrigin="anonymous"></script>
+        <Script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></Script>
+        <Script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8588308876797973"
+          crossOrigin="anonymous"></Script>
       </Head>
       <ToastContainer />
             <div>
@@ -104,20 +126,19 @@ const showParticularSeries = (id) =>{
                 <div>
                 <button className="m-3 font-bold p-3 rounded-lg bg-slate-500 text-white">Popular Tv Shows</button>
                     <div className="w-full  mr-3 md:grid md:grid-cols-3"> 
-                        {(userPagedata.map((show) =>{
+                        {(userPagedata[0].map((show) =>{
                             const {id, name, poster_path, popularity, vote_average, overview} = show
                             const newImage = 'https://res.cloudinary.com/pajimo/image/upload/v1647610106/Untitled_1.png'
                             return(
-                                <div key={id} className="relative p-3 items-center flex justify-between md:border-0 border-b-2 border-t-2">
-                                    <div className="flex" onClick={()=>showParticularSeries(id)}>
-                                        <div className="w-3/12 basis-3/12">
-                                            <img className="w-full " src={poster_path ? Img_Url+poster_path : newImage} alt={name}/>
-                                        </div>
-                                        <div className="pl-3 w-9/12 basis-9/12">
-                                            <p className="font-semibold text-xl">{name}</p>
-                                            <p className="font-light text-sm">{vote_average}</p>
-                                        </div>
+                                <div key={id} onClick={()=>showParticularSeries(id)} className="p-3 items-center flex md:border-0 border-b-2 border-t-2">
+                                    <div className="w-3/12 basis-3/12">
+                                        <img className="w-full " src={poster_path ? Img_Url+poster_path : newImage} alt={name}/>
                                     </div>
+                                    <div className="pl-3 w-9/12 basis-9/12">
+                                        <p className="font-semibold text-xl">{name}</p>
+                                        <div className="w-full"><p className="truncate">{overview ? overview : ""}</p></div>
+                                        <p className="font-light text-sm text-right">{vote_average}</p>
+                                        </div>
                                 </div>
                             )
                         }))}

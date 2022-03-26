@@ -56,14 +56,13 @@ import Loading from './loadingScreen';
 //   }
 
 
-const SelectedTvseries = ({closeParticularSeries, showSelected, selectedSeriesID}) =>{
+const SelectedTvseries = ({setMyListTvseries, closeParticularSeries, showSelected, selectedSeriesID, myListTvseries}) =>{
 
     const auth = getAuth()
     const router = useRouter()
 
     const [isLoading, setIsLoading] = useState(true)
     const baseUrl = `https://api.themoviedb.org/3`
-    
 
     const [selectedTvseriesInfo, setSelectedTvseriesInfo] = useState([])
     const [nextEpisode, setNextEpisode] = useState([])
@@ -212,7 +211,7 @@ const SelectedTvseries = ({closeParticularSeries, showSelected, selectedSeriesID
                                 :  <img className="h-96 w-full object-contain" src={poster_path ? Img_Url+poster_path : newImage} alt={name}/>}
                         <div className="">
                             <div className="flex">
-                                <img className="w-20 bg-white p-2 mt-2" src={Img_Url + networks[0].logo_path} alt={networks[0].name} />
+                                {(networks[0]) ? <div> <img className="w-20 bg-white p-2 mt-2" src={Img_Url + networks[0].logo_path} alt={networks[0].name} /> </div> : 'Network'}
                             </div>
 
                             <div className="w-full flex justify-center">{nextEpisode ? <div><span className='text-xl font-bold'>{status}</span>
@@ -289,7 +288,7 @@ const SelectedTvseries = ({closeParticularSeries, showSelected, selectedSeriesID
                                 
                                 <div className="flex justify-between">
                                     <AddToList className='mr-3' id={id} name={name} poster_path={poster_path} nextEpisode={nextEpisode} next_episode_to_air={next_episode_to_air} status={status}/>
-                                    <div className="ml-3">{auth.currentUser ? <RemoveShow id={id} name={name} /> : ""}</div>
+                                    <div className="ml-3">{auth.currentUser ? <RemoveShow id={id} name={name} myListTvseries={myListTvseries} setMyListTvseries={setMyListTvseries} selectedSeriesID={selectedSeriesID}/> : ""}</div>
                                 </div>
                             </div>
                         </div>

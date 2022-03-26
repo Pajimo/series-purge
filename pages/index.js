@@ -11,14 +11,6 @@ import OneSignal from 'react-onesignal';
 
 export default function Home() {
 
-  useEffect(() => {
-    OneSignal.init({
-      appId: process.env.NEXT_PUBLIC_ONESIGNAL_KEY_ID
-    });
-  }, []);
-
-
-
   const router = useRouter()
   const [isLoading, setIsLoading] = useState(false)
 

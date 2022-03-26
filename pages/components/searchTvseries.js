@@ -9,6 +9,7 @@ import Loading from './loadingScreen';
 import SelectedTvseries from './selectedTvseries';
 import Header from './header';
 import Head from 'next/head'
+import Script from 'next/script';
 
 
 const SearchMovie = () =>{
@@ -56,7 +57,6 @@ const SearchMovie = () =>{
             setIsLoading(false)
             if(data.results){
                 setSearchData(data.results)
-                console.log(data.results)
             }else{
                 setSearchData(data)
             }
@@ -100,9 +100,8 @@ const SearchMovie = () =>{
         <meta name="description" content="Series Purge built for tvseries info" />
         <link rel="icon" href="" />
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
-        <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
-        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8588308876797973"
-          crossOrigin="anonymous"></script>
+        <Script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8588308876797973"
+          crossOrigin="anonymous"></Script>
       </Head>
                 <ToastContainer/>
                 <div>
@@ -138,13 +137,12 @@ const SearchMovie = () =>{
     return (
         <>
         <Head>
-        <title>Series Purge</title>
+        <title>Series Purge | Search TV-Show</title>
         <meta name="description" content="Series Purge built for tvseries info" />
         <link rel="icon" href="" />
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
-        <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
-        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8588308876797973"
-          crossOrigin="anonymous"></script>
+        <Script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8588308876797973"
+          crossOrigin="anonymous"></Script>
       </Head>
         <ToastContainer/>
             <div>

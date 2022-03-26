@@ -11,15 +11,16 @@ import { Button } from '@mui/material';
 import { useRouter } from 'next/router';
 import moment from 'moment';
 import OneSignal from 'react-onesignal';
+import Script from 'next/script'
+
 
 
 const UserList = () =>{
     const [showSelected, setShowSelected] = useState(false)
     const [selectedSeriesID, setSelectedSeriesID] = useState([])
-    const[myListTvseries, setMyListTvseries] = useState([])
+    const [myListTvseries, setMyListTvseries] = useState([])
     const [currentUser, setCurrentUser] = useState('')
     const [isLoading, setIsLoading] = useState(false)
-    const [myListId, setMyListId] = useState([])
     const [listDisable, setListDisable] = useState(false)
 
     const Img_Url = "https://image.tmdb.org/t/p/w200"
@@ -29,7 +30,7 @@ const UserList = () =>{
 
     useEffect(() => {
         onAuthStateChanged (auth, async(user) => {
-            setIsLoading(false)
+            
             if (user) {
                 // User is signed in, see docs for a list of available properties
                 // https://firebase.google.com/docs/reference/js/firebase.User
@@ -43,9 +44,6 @@ const UserList = () =>{
                         return { ...doc.data()}
                 }))
                 //setIsLoading(false)
-                setMyListId(querySnapshot.docs.map((id) =>{
-                    return id.id
-                }))
                 let externalUserId = uid; // You will supply the external user id to the OneSignal SDK
 
                     OneSignal.setExternalUserId(externalUserId);
@@ -55,11 +53,14 @@ const UserList = () =>{
               // User is signed out
               // ...
             }
+            setIsLoading(false)
         });
         setListDisable(true)
     }, [])
 
-    if(isLoading){
+
+
+    if(isLoading){ 
         return(
             <Loading setIsLoading={setIsLoading}/>
             )
@@ -73,9 +74,8 @@ const UserList = () =>{
         <meta name="description" content="Series Purge built for tvseries info" />
         <link rel="icon" href="" />
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
-        <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
-        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8588308876797973"
-          crossOrigin="anonymous"></script>
+        <Script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8588308876797973"
+          crossOrigin="anonymous"></Script>
       </Head>
                 <Header listDisable={listDisable}/>
                 <div className='font-semibold'>
@@ -99,9 +99,8 @@ const UserList = () =>{
         <meta name="description" content="Series Purge built for tvseries info" />
         <link rel="icon" href="" />
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
-        <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
-        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8588308876797973"
-          crossOrigin="anonymous"></script>
+        <Script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8588308876797973"
+          crossOrigin="anonymous"></Script>
       </Head>
                 <Header listDisable={listDisable}/>
                 <div className='font-semibold'>
@@ -123,8 +122,15 @@ const UserList = () =>{
         )
     }
 
+    const refreshData = () => {
+        router.replace(router.asPath);
+        //etIsLoading(true)
+      }
+
     const closeParticularSeries = () =>{
         setShowSelected(false)
+        router.replace(router.asPath);
+        refreshData()
         
     }
     const showParticularSeries = (id) =>{
@@ -133,7 +139,6 @@ const UserList = () =>{
         setShowSelected(true)
     }
 
-
     return(
         <>
         <Head>
@@ -141,9 +146,8 @@ const UserList = () =>{
         <meta name="description" content="Series Purge built for tvseries info" />
         <link rel="icon" href="" />
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
-        <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
-        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8588308876797973"
-          crossOrigin="anonymous"></script>
+        <Script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8588308876797973"
+          crossOrigin="anonymous"></Script>
       </Head>
             <div>
                 <Header listDisable={listDisable}/>
@@ -180,7 +184,7 @@ const UserList = () =>{
                     )
                 })}
                 </div>
-                <SelectedTvseries closeParticularSeries={closeParticularSeries} showSelected={showSelected} selectedSeriesID={selectedSeriesID} />
+                <SelectedTvseries setMyListTvseries={setMyListTvseries} myListTvseries={myListTvseries} closeParticularSeries={closeParticularSeries} showSelected={showSelected} selectedSeriesID={selectedSeriesID} />
             </div>
         </>
     )

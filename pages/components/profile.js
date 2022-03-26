@@ -1,4 +1,4 @@
-import { getAuth, onAuthStateChanged, deleteUser, signOut, EmailAuthProvider, reauthenticateWithCredential} from "firebase/auth";
+import { getAuth, onAuthStateChanged, deleteUser, signOut, EmailAuthProvider, reauthenticateWithCredential, updateProfile,} from "firebase/auth";
 import {firebaseConfig, database} from '../../firebaseConfig';
 import { collection, addDoc, deleteDoc, getDocs, getDoc, query, where, doc } from 'firebase/firestore';
 import Loading from './loadingScreen';
@@ -11,6 +11,7 @@ import { toast, ToastContainer } from "react-toastify";
 import CircularProgress from '@mui/material/CircularProgress';
 import 'react-toastify/dist/ReactToastify.css';
 import Head from 'next/head'
+import Script from 'next/script'
 
 const Profile = () =>{
 
@@ -24,7 +25,8 @@ const Profile = () =>{
     const [isLoading, setIsLoading] = useState(false)
     const [display_name, setDisplay_name] = useState('')
     const [password, setPassword] = useState('')
-    const[myListTvseries, setMyListTvseries] = useState([])
+    const [myListTvseries, setMyListTvseries] = useState([])
+    const [firstName, setFirstName] = useState('')
 
     useEffect(() =>{
         onAuthStateChanged (auth, async(user) => {
@@ -56,6 +58,13 @@ const Profile = () =>{
             }
         });
     }, [])
+
+
+    const updateAccount = async() =>{
+        await updateProfile(auth.currentUser, {
+            displayName: firstName
+          })
+    }
     
     const deleteAccount = async() =>{
         if(!password){
@@ -90,6 +99,7 @@ const Profile = () =>{
             });
         }
     }
+        
 
     if(isLoading){
         return(
@@ -151,16 +161,17 @@ const Profile = () =>{
         <meta name="description" content="Series Purge built for tvseries info" />
         <link rel="icon" href="" />
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
-        <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
-        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8588308876797973"
-          crossOrigin="anonymous"></script>
+        <Script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></Script>
+        <Script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8588308876797973"
+          crossOrigin="anonymous"></Script>
       </Head>
             <Header />
             <div className='flex justify-center'>
                 <h1 className="logo"></h1>
             </div>
             <div className="pt-5 font-bold text-center text-3xl">Your Profile</div>
-            <h1 className="pt-2 font-bold text-center text-2xl">Welcome: {display_name}</h1>
+            <h1 className="pt-2 font-bold text-center text-2xl">Welcome: {display_name ? display_name : "Anonymous"}</h1>
+            {!display_name ? <div><input type='text' placeholder='Display Name' value={firstName} onChange={(e) => setFirstName(e.target.value)}/> <button onClick={updateAccount}>Submit</button></div> : ""}
             <div className="grid pb-20">
                 {userProfile.map((users) =>{
                     const {name, email, uid, firstName} = users
@@ -179,7 +190,7 @@ const Profile = () =>{
                     )
                 })}
                 <div className='p-3 text-xl font-semibold mt-10'>
-                    <p>Number of shows in list: {myListTvseries.length}</p>
+                    <p>You are following {myListTvseries.length} TV-Shows</p>
                 </div>
                 <div className="pt-20 flex justify-center">
                     <button className="p-3 bg-red-500 text-white font-bold" onClick={() => setDeleteClicked(true)}>Delete Account</button>

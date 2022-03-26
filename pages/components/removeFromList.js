@@ -7,9 +7,10 @@ import 'react-toastify/dist/ReactToastify.css';
 import Button from '@mui/material/Button';
 import CircularProgress from '@mui/material/CircularProgress';
 import { FaCheck } from "react-icons/fa";
+import { useRouter } from 'next/router';
 
 
-const RemoveShow =({id, name}) =>{
+const RemoveShow =({id, name, myListTvseries, selectedSeriesID, setMyListTvseries}) =>{
 
     const [myListId, setMyListId] = useState([])
     const [checking, setChecking] = useState(false)
@@ -17,8 +18,10 @@ const RemoveShow =({id, name}) =>{
 
     const auth = getAuth()
 
+    const router = useRouter()
 
-    const removeFromList = () =>{       
+
+    const removeFromList = () =>{
         onAuthStateChanged(auth, async(user) => {
             if (user) {
                 setChecking(true)
@@ -50,6 +53,7 @@ const RemoveShow =({id, name}) =>{
                                   setSuccess(false)
                               }, 2000)
                     toast(`${name} deleted from your list`)
+                    
                 }
                 else{
                     toast(`${name} is not in your List`)
@@ -61,6 +65,9 @@ const RemoveShow =({id, name}) =>{
             // ...
             toast.error("Log in to remove from list")
             }
+            // to remove the show from the array in userList (userPersonalList.js) without having to refresh to see changes
+            let final = myListTvseries.filter((del) => del.id != selectedSeriesID)
+            setMyListTvseries(final)
         });
 }
 
