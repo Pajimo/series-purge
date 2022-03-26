@@ -9,6 +9,7 @@ import Header from "./header";
 import Head from 'next/head'
 import OneSignal from 'react-onesignal';
 import Footer from './footer'
+import Script from "next/script";
 
 
 export const getServerSideProps = async() =>{
@@ -108,6 +109,13 @@ const UserPage = ({userPagedata}) =>{
 
     return (
         <>
+        <Script  
+            id="Adsense-id"  async
+            onError={(e) => { console.error("Script failed to load", e); }}
+            strategy="afterInteractive"
+            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8588308876797973"
+            crossorigin="anonymous"
+        />
         <Head>
         <title>Series Purge | Main Page</title>
         <meta name="description" content="Series Purge - Easy Information about your favourite tv-shows / tv-series, episodes, seasons, trailers, network providers" />
