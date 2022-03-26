@@ -12,6 +12,7 @@ import { useRouter } from 'next/router';
 import moment from 'moment';
 import OneSignal from 'react-onesignal';
 import Script from 'next/script'
+import Footer from './footer'
 
 
 
@@ -86,7 +87,7 @@ const UserList = () =>{
                             router.push('./authentication')}}>Sign in</Button></div>
                     </div>
                 </div>
-                
+                <Footer />
             </>
         )
     }
@@ -111,7 +112,7 @@ const UserList = () =>{
                             router.push('./searchTvseries')}}>Add to List</Button></div>
                     </div>
                 </div>
-                
+                <Footer />
             </>
         )
     }
@@ -186,6 +187,7 @@ const UserList = () =>{
                 </div>
                 <SelectedTvseries setMyListTvseries={setMyListTvseries} myListTvseries={myListTvseries} closeParticularSeries={closeParticularSeries} showSelected={showSelected} selectedSeriesID={selectedSeriesID} />
             </div>
+            <Footer />
         </>
     )
 }

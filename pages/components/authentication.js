@@ -92,8 +92,8 @@ const LoginSignup = () =>{
               await addDoc(collection(database, "users"), {
                 uid: user.uid,
                 name: firstName + " " + lastName,
-                firstName: firstName,
-                lastName: lastName,
+                firstName,
+                lastName,
                 authProvider: "Email/Password",
                 email: user.email,
               });

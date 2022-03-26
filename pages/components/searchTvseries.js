@@ -10,6 +10,7 @@ import SelectedTvseries from './selectedTvseries';
 import Header from './header';
 import Head from 'next/head'
 import Script from 'next/script';
+import Footer from './footer'
 
 
 const SearchMovie = () =>{
@@ -124,6 +125,7 @@ const SearchMovie = () =>{
                         </div>
                     </div>
                 </div>
+                <Footer />
             </>
         )
     }
@@ -171,6 +173,7 @@ const SearchMovie = () =>{
                 </div>
                 <SelectedTvseries closeParticularSeries={closeParticularSeries} showSelected={showSelected} selectedSeriesID={selectedSeriesID} />
             </div>
+            <Footer />
         </>
     )
 }

@@ -12,6 +12,7 @@ import Head from 'next/head'
 import { BiDotsVertical } from "react-icons/bi";
 import OneSignal from 'react-onesignal';
 import Script from 'next/script'
+import Footer from './footer'
 
 
 export const getServerSideProps = async() =>{
@@ -149,6 +150,7 @@ const showParticularSeries = (id) =>{
                 </div>
                 <SelectedTvseries closeParticularSeries={closeParticularSeries} showSelected={showSelected} selectedSeriesID={selectedSeriesID} />
             </div>
+            <Footer />
         </>
     )
 }

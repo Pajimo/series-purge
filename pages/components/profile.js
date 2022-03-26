@@ -12,6 +12,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 import 'react-toastify/dist/ReactToastify.css';
 import Head from 'next/head'
 import Script from 'next/script'
+import Footer from './footer'
 
 const Profile = () =>{
 
@@ -119,6 +120,7 @@ const Profile = () =>{
                             router.push('./authentication')}}>Sign in</button></div>
                     </div>
                 </div>
+                <Footer />
                 
             </>
         )
@@ -147,6 +149,7 @@ const Profile = () =>{
                     
                 </div>
             </div>
+            <Footer />
             </>
         )
         
@@ -196,6 +199,7 @@ const Profile = () =>{
                 </div>
 
             </div>
+            <Footer />
         </>
     )
 }

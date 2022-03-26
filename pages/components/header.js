@@ -109,11 +109,12 @@ const Header = ({disable, discoverDisable, listDisable}) =>{
                             
                             }}
                         ><Typography sx={{ p: 2 }} className="py-5 px-5 bg-gray-900 text-white">
-                            <div>{currentUser ? `Welcome: ${currentUser.email}` : " "}</div><br></br>
+                            <div>{currentUser ? `Welcome: ${currentUser.email}` : " "}</div>
                         <br></br>
-                            <div className="border-b-2 py-2"><button className=" p-3 bg-slate-500  rounded-xl"  onClick={() => router.push('./userPersonalList')}>Saved Shows</button></div>
-                            <div className="border-b-2 py-2"><button className=" p-3 bg-slate-500  rounded-xl" variant="contained" onClick={() => goToProfile()}>Profile</button></div>
-                            <div className="border-b-2 py-2"><button className=" p-3 bg-slate-500 rounded-xl" aria-describedby={id} variant="contained" onClick={()=> authSubmit()}>
+                            <div className="border-b-2 py-2"><button className=" p-3 bg-slate-500  rounded-xl w-full"  onClick={() => router.push('./userPersonalList')}>Saved Shows</button></div>
+                            <div className="border-b-2 py-2"><button className=" p-3 bg-slate-500  rounded-xl w-full"  onClick={() => goToProfile()}>Profile</button></div>
+                            <div className="border-b-2 py-2"><button className=" p-3 bg-slate-500  rounded-xl  w-full"  onClick={() => router.push('./support')}>Support</button></div>
+                            <div className="border-b-2 py-2"><button className=" p-3 bg-slate-500 rounded-xl  w-full" aria-describedby={id} variant="contained" onClick={()=> authSubmit()}>
                                 {currentUser ? 'Sign Out' : "Sign In"}
                             </button></div>
                         </Typography>
