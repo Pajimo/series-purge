@@ -45,7 +45,7 @@ const Admin = () =>{
         <>
         <Header />
         
-        <div className='py-20'>
+        <div className='py-20 overflow-x-scroll'>
             <h1 className='text-3xl font-bold text-center mb-10'>Welcome MightyMide</h1>
             <table className="table-auto mx-20 border-separate border border-slate-400 overflow-x-scroll">
                 <thead className='h-20 text-lg bg-gray-500'>
