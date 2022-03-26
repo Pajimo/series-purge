@@ -74,8 +74,8 @@ const UserList = () =>{
         <meta name="description" content="Series Purge built for tvseries info" />
         <link rel="icon" href="" />
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
-        <Script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8588308876797973"
-          crossOrigin="anonymous"></Script>
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8588308876797973"
+          crossOrigin="anonymous"></script>
       </Head>
                 <Header listDisable={listDisable}/>
                 <div className='font-semibold'>
@@ -99,8 +99,8 @@ const UserList = () =>{
         <meta name="description" content="Series Purge built for tvseries info" />
         <link rel="icon" href="" />
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
-        <Script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8588308876797973"
-          crossOrigin="anonymous"></Script>
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8588308876797973"
+          crossOrigin="anonymous"></script>
       </Head>
                 <Header listDisable={listDisable}/>
                 <div className='font-semibold'>
@@ -146,8 +146,8 @@ const UserList = () =>{
         <meta name="description" content="Series Purge built for tvseries info" />
         <link rel="icon" href="" />
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
-        <Script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8588308876797973"
-          crossOrigin="anonymous"></Script>
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8588308876797973"
+          crossOrigin="anonymous"></script>
       </Head>
             <div>
                 <Header listDisable={listDisable}/>

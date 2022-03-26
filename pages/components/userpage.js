@@ -116,9 +116,9 @@ const showParticularSeries = (id) =>{
         <meta name="description" content="Series Purge - Easy Information about your favourite tv-shows / tv-series, episodes, seasons, trailers, network providers" />
         <link rel="icon" href="" />
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
-        <Script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></Script>
-        <Script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8588308876797973"
-          crossOrigin="anonymous"></Script>
+        <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8588308876797973"
+          crossOrigin="anonymous"></script>
       </Head>
       <ToastContainer />
             <div>
