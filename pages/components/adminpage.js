@@ -61,7 +61,6 @@ const Admin = () =>{
                         supportEmail,
                         supportMessage,
                         time,
-                        day1,
                         day,
                         date,
                         month,
@@ -71,7 +70,7 @@ const Admin = () =>{
 
                             <tbody key={time}>
                                 <tr>
-                                <td className='border border-slate-300 p-3'>{day1 + " " + day + " " + date + ' ' + month + " " + year}</td>
+                                <td className='border border-slate-300 p-3'>{date + ' ' + day + " " + month + " " + year}</td>
                                 <td className='border border-slate-300 p-3'>{supportFirstName}</td>
                                 <td className='border border-slate-300 p-3'>{supportEmail}</td>
                                 <td className='border border-slate-300 p-3'>{supportMessage}</td>

@@ -2,16 +2,12 @@ import { useEffect, useState } from "react"
 import {firebaseConfig, database} from '../../firebaseConfig'
 import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 import { ToastContainer, toast } from "react-toastify";
-import { Button } from "@mui/material";
 import { useRouter } from "next/router";
 import Loading from "./loadingScreen";
 import SelectedTvseries from './selectedTvseries';
 import Header from "./header";
-import moment from 'moment';
 import Head from 'next/head'
-import { BiDotsVertical } from "react-icons/bi";
 import OneSignal from 'react-onesignal';
-import Script from 'next/script'
 import Footer from './footer'
 
 
@@ -92,17 +88,17 @@ const UserPage = ({userPagedata}) =>{
     }, []);
 
 
-// for selected shows
-const [showSelected, setShowSelected] = useState(false)
-const [selectedSeriesID, setSelectedSeriesID] = useState([])
-   const closeParticularSeries =() =>{
-    setShowSelected(false)
-}
-const showParticularSeries = (id) =>{
-    const finalValue = userPagedata.filter((curId) => curId.id === id)
-    setSelectedSeriesID(finalValue[0].id)
-    setShowSelected(true)
-}
+    // for selected shows
+    const [showSelected, setShowSelected] = useState(false)
+    const [selectedSeriesID, setSelectedSeriesID] = useState([])
+    const closeParticularSeries =() =>{
+        setShowSelected(false)
+    }
+    const showParticularSeries = (id) =>{
+        const finalValue = userPagedata[0].filter((curId) => curId.id === id)
+        setSelectedSeriesID(finalValue[0].id)
+        setShowSelected(true)
+    }
 
     if(isLoading){
         return(
@@ -124,9 +120,9 @@ const showParticularSeries = (id) =>{
       <ToastContainer />
             <div>
                 <Header disable={disable} setShowDisable={setShowDisable}/>
-                <div>
+                <div className="w-full">
                 <button className="m-3 font-bold p-3 rounded-lg bg-slate-500 text-white">Popular Tv Shows</button>
-                    <div className="w-full  mr-3 md:grid md:grid-cols-3"> 
+                    <div className="mx-10 md:grid md:grid-cols-3"> 
                         {(userPagedata[0].map((show) =>{
                             const {id, name, poster_path, popularity, vote_average, overview} = show
                             const newImage = 'https://res.cloudinary.com/pajimo/image/upload/v1647610106/Untitled_1.png'

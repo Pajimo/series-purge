@@ -42,7 +42,6 @@ const Support = () =>{
                     supportEmail,
                     supportMessage,
                     time,
-                    day1,
                     day,
                     date,
                     month,
