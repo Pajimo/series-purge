@@ -18,7 +18,6 @@ import Loading from "./loadingScreen";
 import {MdVisibility} from "react-icons/md";
 import {MdVisibilityOff} from "react-icons/md";
 import InputAdornment from '@mui/material/InputAdornment';
-import { async } from "@firebase/util";
 import { FcGoogle } from "react-icons/fc";
 
 const LoginSignup = () =>{
