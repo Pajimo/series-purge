@@ -20,7 +20,6 @@ const UserList = () =>{
     const [showSelected, setShowSelected] = useState(false)
     const [selectedSeriesID, setSelectedSeriesID] = useState([])
     const [myListTvseries, setMyListTvseries] = useState([])
-    const [currentUser, setCurrentUser] = useState('')
     const [isLoading, setIsLoading] = useState(false)
     const [listDisable, setListDisable] = useState(false)
 
@@ -31,12 +30,10 @@ const UserList = () =>{
 
     useEffect(() => {
         onAuthStateChanged (auth, async(user) => {
-            
+            setIsLoading(true)
             if (user) {
-                setIsLoading(true)
                 // User is signed in, see docs for a list of available properties
                 // https://firebase.google.com/docs/reference/js/firebase.User
-                setCurrentUser(user.email)
                 const uid = user.uid;
                 const querySnapshot = await getDocs(collection(database, uid));
                 // querySnapshot.forEach((doc) => {
@@ -54,8 +51,9 @@ const UserList = () =>{
             } else {
               // User is signed out
               // ...
+              setIsLoading(false)
             }
-            setIsLoading(false)
+            
         });
         setListDisable(true)
     }, [])
@@ -71,21 +69,22 @@ const UserList = () =>{
     if(!auth.currentUser){
         return(
             <>
-            <Head>
-        <title>Series Purge | User List</title>
-        <meta name="description" content="Series Purge built for tvseries info" />
-        <link rel="icon" href="" />
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
-        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8588308876797973"
-          crossOrigin="anonymous"></script>
-      </Head>
+                <Head>
+                    <title>Series Purge | User List</title>
+                    <meta name="description" content="Series Purge built for tvseries info" />
+                    <link rel="icon" href="" />
+                    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8588308876797973"
+                    crossOrigin="anonymous"></script>
+                </Head>
                 <Header listDisable={listDisable}/>
                 <div className='font-semibold'>
                     <div className={styles.container}>
                         <div className={styles.main}><h1 className='mb-10 text-3xl'>Sign in to view list</h1>
-                        <Button className='w-52' variant="contained" onClick={() => {
-                            setIsLoading(true)
-                            router.push('./authentication')}}>Sign in</Button></div>
+                            <Button className='w-52' variant="contained" onClick={() => {
+                                setIsLoading(true)
+                                router.push('./authentication')}}>Sign in</Button>
+                            </div>
                     </div>
                 </div>
                 <Footer />
@@ -166,7 +165,7 @@ const UserList = () =>{
                                 </div>
                                 <div>
                                     <h1 className='font-bold'>{name}</h1>
-                                    {next_episode_to_air ? 
+                                    {nextEpisode ?
                                         <div> 
                                             <p>Next Episode on {((moment().add((moment(airdate[0]).fromNow())[2] + (moment(airdate[0]).fromNow())[3] + (moment(airdate[0]).fromNow())[4], 'days').calendar(null, {
                                             sameDay: '[Today]',
@@ -176,8 +175,8 @@ const UserList = () =>{
                                             lastWeek: '[Last] dddd',
                                             sameElse: 'DD/MM/YYYY'
                                         })))}</p><p> {(moment(airdate[0]).fromNow())} </p>
-                                            <p className='font-bold'>S{nextEpisode.season_number} | E{nextEpisode.episode_number}</p>
-                                            <p>{nextEpisode.name}</p>
+                                            <p className='font-bold'>S{nextEpisode ? nextEpisode.season_number : ''} | E{nextEpisode ? nextEpisode.episode_number : ""}</p>
+                                            <p>{nextEpisode ? nextEpisode.name : ''}</p>
                                 </div> : "Next date not available"}
                                     <p>{status}</p>
                                 </div>
